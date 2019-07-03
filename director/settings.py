@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'base',
     'academico',
+    'import_export',
 ]
 
 MIDDLEWARE = [
