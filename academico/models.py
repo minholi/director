@@ -4,6 +4,8 @@ class Situacao(models.Model):
     id = models.IntegerField(primary_key=True)
     situacao = models.CharField(max_length=40, verbose_name='situação')
     descricao = models.TextField(blank=True, verbose_name='descrição')
+    reversivel = models.BooleanField(verbose_name='reversível', default=False)
+    reversao = models.ForeignKey('self', on_delete=models.PROTECT, verbose_name='reversão', null=True, blank=True)
 
     def __str__(self):
         return self.situacao
@@ -22,8 +24,7 @@ class Atividade(Situacao):
     pass
 
 class Financeira(Situacao):
-    reversivel = models.BooleanField(verbose_name='reversível', default=False)
-    reversao = models.ForeignKey('Financeira', on_delete=models.PROTECT, verbose_name='reversão', null=True, blank=True)
+    pass
 
 class Matricula(Situacao):
     class Meta:
@@ -42,7 +43,7 @@ class Cadastral(Situacao):
         verbose_name_plural = "cadastrais"
 
 class Aluno(models.Model):
-    ra = models.CharField(max_length=20, verbose_name='RA')
+    ra = models.CharField(max_length=20, verbose_name='RA', primary_key=True)
     nome = models.CharField(max_length=255)
     cpf = models.CharField(max_length=14, verbose_name='CPF')
     curso = models.CharField(max_length=255)
