@@ -6,7 +6,7 @@ diff-match-patch==20181111
 Django==2.2.3
 django-import-export==1.2.0
 django-localflavor==2.2
-django-suit==2.0a1
+-e git://github.com/darklow/django-suit.git@v2#egg=django-suit
 et-xmlfile==1.0.1
 isort==4.3.21
 jdcal==1.4.1

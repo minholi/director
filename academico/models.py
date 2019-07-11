@@ -1,5 +1,4 @@
 from django.db import models
-from base.models import Pessoa
 
 class Situacao(models.Model):
     id = models.IntegerField(primary_key=True)
