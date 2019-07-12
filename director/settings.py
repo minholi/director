@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'academico',
     'log',
     'import_export',
+    'django_celery_results',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -122,3 +124,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Celery Settings
+# https://docs.celeryproject.org/en/latest/django/first-steps-with-django.html
+
+CELERY_RESULT_BACKEND = 'django-db'

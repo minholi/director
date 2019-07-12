@@ -4,8 +4,8 @@ class Situacao(models.Model):
     id = models.IntegerField(primary_key=True)
     situacao = models.CharField(max_length=40, verbose_name='situação')
     descricao = models.TextField(blank=True, verbose_name='descrição')
-    reversivel = models.BooleanField(verbose_name='reversível', default=False)
-    reversao = models.ForeignKey('self', on_delete=models.PROTECT, verbose_name='reversão', null=True, blank=True)
+    conversivel = models.BooleanField(verbose_name='conversível', default=False)
+    conversao = models.ForeignKey('self', on_delete=models.PROTECT, verbose_name='conversão', null=True, blank=True)
 
     def __str__(self):
         return self.situacao
