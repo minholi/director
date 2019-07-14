@@ -41,8 +41,6 @@ INSTALLED_APPS = [
     'academico',
     'log',
     'import_export',
-    'django_celery_results',
-    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -125,7 +123,19 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# Celery Settings
-# https://docs.celeryproject.org/en/latest/django/first-steps-with-django.html
 
-CELERY_RESULT_BACKEND = 'django-db'
+# Celery settings
+from celery.schedules import crontab
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'America/Sao_Paulo'
+CELERY_BEAT_SCHEDULE = {
+    'dois_mais_dois': {
+        'task': 'log.tasks.add',
+        'schedule': crontab(),
+        'args': (2, 2),
+    },
+}
