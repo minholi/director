@@ -134,8 +134,7 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'America/Sao_Paulo'
 CELERY_BEAT_SCHEDULE = {
     'dois_mais_dois': {
-        'task': 'log.tasks.add',
+        'task': 'log.tasks.aluno_temporal',
         'schedule': crontab(),
-        'args': (2, 2),
     },
 }
