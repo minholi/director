@@ -19,4 +19,4 @@ def aluno_temporal():
             andamento = aluno.andamento,
             cadastral = aluno.cadastral
         )
-        aluno.save()
+        tempo.save()
