@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'academico',
+    'relacionamento',
     'log',
     'import_export',
 ]
