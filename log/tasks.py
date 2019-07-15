@@ -3,20 +3,29 @@ from __future__ import absolute_import, unicode_literals
 from celery import shared_task
 from academico.models import Aluno
 from .models import TempoAluno
+from django.utils import timezone
+from django.db import transaction
 
 @shared_task
+@transaction.atomic
 def aluno_temporal():
+    ontem = timezone.now() - timezone.timedelta(days=1)
     alunos = Aluno.objects.all()
 
     for aluno in alunos:
-        tempo = TempoAluno(
+        TempoAluno.objects.update_or_create(
             aluno = aluno,
-            presenca = aluno.presenca,
-            nota = aluno.nota,
-            financeira = aluno.financeira,
-            matricula = aluno.matricula,
-            documentacao = aluno.documentacao,
-            andamento = aluno.andamento,
-            cadastral = aluno.cadastral
+            data = ontem.date(),
+            hora = '23:59:59',
+            defaults = {
+                'presenca': aluno.presenca,
+                'nota': aluno.nota,
+                'financeira': aluno.financeira,
+                'matricula': aluno.matricula,
+                'documentacao': aluno.documentacao,
+                'andamento': aluno.andamento,
+                'cadastral': aluno.cadastral,
+            }
         )
-        tempo.save()
+
+    return '%s aluno(s)' % alunos.count()

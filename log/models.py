@@ -7,11 +7,12 @@ from django.utils import timezone
 
 class LogAluno(models.Model):
     aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
-    data = models.DateTimeField(db_index=True, auto_now_add=True)
+    data = models.DateField(db_index=True)
+    hora = models.TimeField()
 
     class Meta:
         abstract = True
-        unique_together = ['aluno', 'data']
+        unique_together = ['aluno', 'data', 'hora']
 
 class TransAlunoPresenca(LogAluno):
     anterior = models.ForeignKey(Presenca, on_delete=models.CASCADE, related_name='presenca_anterior', blank=True, null=True)
@@ -59,6 +60,7 @@ class TempoAluno(LogAluno):
 
 @receiver(signals.pre_save, sender=Aluno)
 def log_trans_aluno(sender, instance, **kwargs):
+    now = timezone.now()
     try:
         anterior = Aluno.objects.get(pk=instance)
         presenca_anterior = anterior.presenca
@@ -73,21 +75,21 @@ def log_trans_aluno(sender, instance, **kwargs):
 
     if instance.presenca != presenca_anterior:
         print('%s: %s > %s' % (instance, presenca_anterior, instance.presenca)) 
-        # TransAlunoPresenca.objects.update_or_create(aluno=instance, data=timezone.now(), defaults={'anterior':presenca_anterior, 'situacao':instance.presenca})
-        log = TransAlunoPresenca(aluno=instance, data=timezone.now(), anterior=presenca_anterior, situacao=instance.presenca)
+        # TransAlunoPresenca.objects.update_or_create(aluno=instance, data=now.date(), hora=now.time(), defaults={'anterior':presenca_anterior, 'situacao':instance.presenca})
+        log = TransAlunoPresenca(aluno=instance, data=now.date(), hora=now.time(), anterior=presenca_anterior, situacao=instance.presenca)
         log.save()
 
     if instance.nota != nota_anterior:
         print('%s: %s > %s' % (instance, nota_anterior, instance.nota)) 
-        log = TransAlunoNota(aluno=instance, data=timezone.now(), anterior=nota_anterior, situacao=instance.nota)
+        log = TransAlunoNota(aluno=instance, data=now.date(), hora=now.time(), anterior=nota_anterior, situacao=instance.nota)
         log.save()
 
     if instance.financeira != financeira_anterior:
         print('%s: %s > %s' % (instance, financeira_anterior, instance.financeira)) 
-        log = TransAlunoFinanceira(aluno=instance, data=timezone.now(), anterior=financeira_anterior, situacao=instance.financeira)
+        log = TransAlunoFinanceira(aluno=instance, data=now.date(), hora=now.time(), anterior=financeira_anterior, situacao=instance.financeira)
         log.save()
 
     if instance.matricula != matricula_anterior:
         print('%s: %s > %s' % (instance, matricula_anterior, instance.matricula)) 
-        log = TransAlunoMatricula(aluno=instance, data=timezone.now(), anterior=matricula_anterior, situacao=instance.matricula)
+        log = TransAlunoMatricula(aluno=instance, data=now.date(), hora=now.time(), anterior=matricula_anterior, situacao=instance.matricula)
         log.save()
