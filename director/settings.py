@@ -139,3 +139,8 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(),
     },
 }
+
+# Define o formato de data e hora padrão da aplicação
+from django.conf.locale.pt_BR import formats as pt_BR_formats
+pt_BR_formats.DATETIME_FORMAT = "d/m/Y à\s H:i:s"
+pt_BR_formats.DATE_FORMAT = "d/m/Y"

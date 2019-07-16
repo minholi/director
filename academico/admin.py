@@ -1,11 +1,17 @@
 from django.contrib import admin
-from academico.models import Aluno, Presenca, Nota, Atividade, Financeira, Matricula, Documentacao, Andamento, Cadastral
+from .models import Aluno, Presenca, Nota, Atividade, Financeira, Matricula, Documentacao, Andamento, Cadastral, Atendimento
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 
 class AlunoResource(resources.ModelResource):
     class Meta:
         model = Aluno
+
+class AtendimentoInline(admin.StackedInline):
+    model = Atendimento
+    extra = 1
+    can_delete = False
+    show_change_link = True
 
 @admin.register(Aluno)
 class AlunoAdmin(ImportExportModelAdmin):
@@ -14,6 +20,7 @@ class AlunoAdmin(ImportExportModelAdmin):
     list_filter = ('curso', 'polo', 'curriculo', 'serie', 'presenca', 'nota', 'financeira', 'matricula', 'documentacao', 'andamento', 'cadastral')
     search_fields = ('ra', 'nome', 'cpf')
     resource_class = AlunoResource
+    inlines = [AtendimentoInline,]
     """     
     readonly_fields = ('ra', 'nome', 'cpf', 'curso', 'curriculo', 'serie', 'polo')
     fieldsets = [
@@ -28,3 +35,7 @@ class AlunoAdmin(ImportExportModelAdmin):
 class SituacaoAdmin(admin.ModelAdmin):
     list_display = ('id', 'situacao', 'descricao')
     list_display_links = ('id', 'situacao')
+
+@admin.register(Atendimento)
+class AtendimentoAdmin(admin.ModelAdmin):
+    pass

@@ -1,4 +1,5 @@
 from django.db import models
+import relacionamento.models as rel
 
 class Situacao(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -60,3 +61,25 @@ class Aluno(models.Model):
 
     def __str__(self):
         return self.ra
+
+
+class AcaoManager(models.Manager):
+    def get_queryset(self):
+        return super(AcaoManager, self).get_queryset().filter(
+            tipo__alunos=True)
+
+class Acao(rel.Acao):
+    objects = AcaoManager()
+    class Meta:
+        proxy = True
+
+
+class Atendimento(rel.Atendimento):
+    aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
+    acao = models.ForeignKey(Acao, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return '%s - %s - %s' % (self.aluno, self.acao, self.data)
+
+    class Meta:
+        verbose_name = 'atendimento'
