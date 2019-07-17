@@ -31,10 +31,11 @@ class Acao(models.Model):
         verbose_name_plural = 'ações'
 
 
-
 class Atendimento(models.Model):
     data = models.DateTimeField(auto_now_add=True)
     obs = models.TextField(blank=True)
 
     class Meta:
         abstract = True
+
+
