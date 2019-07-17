@@ -7,7 +7,7 @@ class SuitConfig(DjangoSuitConfig):
     menu = (
         ParentItem('Acadêmico', children=[
             ChildItem(model='academico.aluno'),
-            ChildItem(model='relacionamento.atendimentoaluno'),
+            ChildItem(model='academico.atendimento'),
         ], icon='fa fa-leaf'),
         ParentItem('Situações', children=[
             ChildItem(model='academico.presenca'),
