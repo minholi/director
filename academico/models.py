@@ -60,7 +60,7 @@ class Aluno(models.Model):
     cadastral = models.ForeignKey(Cadastral, on_delete=models.PROTECT, verbose_name='situação')
 
     def __str__(self):
-        return self.ra
+        return '%s - %s' % (self.ra, self.nome)
 
 
 class AcaoManager(models.Manager):

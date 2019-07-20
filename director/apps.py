@@ -5,6 +5,14 @@ class SuitConfig(DjangoSuitConfig):
     layout = 'horizontal'
 
     menu = (
+        ParentItem('Captação', children=[
+            ChildItem(model='captacao.lead'),
+            ChildItem(model='captacao.cadastral'),
+        ], icon='fa fa-leaf'),
+        ParentItem('Ingresso', children=[
+            ChildItem(model='ingresso.candidato'),
+            ChildItem(model='ingresso.cadastral'),
+        ], icon='fa fa-leaf'),
         ParentItem('Acadêmico', children=[
             ChildItem(model='academico.aluno'),
             ChildItem(model='academico.atendimento'),
