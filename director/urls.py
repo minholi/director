@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from controlcenter.views import controlcenter
+
 
 admin.site.site_header = 'Director'
 admin.site.site_title = 'Director'
@@ -22,4 +24,5 @@ admin.site.site_url = None
 
 urlpatterns = [
     path('', admin.site.urls),
+    path('dashboard/', controlcenter.urls),
 ]

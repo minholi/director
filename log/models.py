@@ -1,5 +1,5 @@
 from django.db import models
-from academico.models import Aluno, Presenca, Nota, Financeira, Matricula, Documentacao, Andamento, Cadastral
+from relacionamento.models import Aluno, Presenca, Nota, Financeira, Matricula, Documentacao, Andamento, Cadastral
 from django.db.models import signals
 from django.dispatch import receiver
 from django.utils import timezone

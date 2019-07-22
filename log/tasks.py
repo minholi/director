@@ -1,7 +1,7 @@
 # Create your tasks here
 from __future__ import absolute_import, unicode_literals
 from celery import shared_task
-from academico.models import Aluno
+from relacionamento.models import Aluno
 from .models import TempoAluno
 from django.utils import timezone
 from django.db import transaction

@@ -38,12 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'suit_dashboard',
+    'djangobower',
+    'acoes',
     'captacao',
     'ingresso',
-    'academico',
     'relacionamento',
     'log',
     'import_export',
+    'controlcenter',
 ]
 
 MIDDLEWARE = [
@@ -126,6 +129,15 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'djangobower.finders.BowerFinder',
+]
+
+BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'components')
+
+BOWER_PATH = '/usr/local/bin/bower'
 
 # Celery settings
 from celery.schedules import crontab
@@ -141,3 +153,8 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(),
     },
 }
+
+
+CONTROLCENTER_DASHBOARDS = (
+    ('geral', 'director.dashboards.MainDashboard'),
+)
