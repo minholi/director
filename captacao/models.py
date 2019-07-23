@@ -18,14 +18,26 @@ class Cadastral(Situacao):
         verbose_name = 'sit. cadastral'
         verbose_name_plural = "sit. cadastrais"
 
+class Status(models.Model):
+    nome = models.CharField(max_length=255)
+    descricao = models.TextField(blank=True, verbose_name='descrição')
+
+    def __str__(self):
+        return self.nome
+
 class Origem(models.Model):
     nome = models.CharField(max_length=255)
+    descricao = models.TextField(blank=True, verbose_name='descrição')
 
     def __str__(self):
         return self.nome
 
 class Lead(models.Model):
     nome = models.CharField(max_length=255)
+    email = models.EmailField()
+    celular = models.CharField(max_length=15, blank=True, null=True)
+    status = models.ForeignKey(Status, on_delete=models.PROTECT)
+    naoligar = models.BooleanField(default=False, verbose_name='não ligar')
     origem = models.ForeignKey(Origem, on_delete=models.PROTECT)
     cadastral = models.ForeignKey(Cadastral, on_delete=models.PROTECT, verbose_name='situação')
 
