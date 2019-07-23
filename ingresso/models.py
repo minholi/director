@@ -9,7 +9,7 @@ class Situacao(models.Model):
     conversao = models.ForeignKey('self', on_delete=models.PROTECT, verbose_name='conversão', null=True, blank=True)
 
     def __str__(self):
-        return self.situacaos
+        return self.situacao
 
     class Meta:
         abstract = True

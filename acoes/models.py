@@ -6,7 +6,7 @@ class TipoAcao(models.Model):
     nome = models.CharField(max_length=255)
     descricao = models.TextField(blank=True, verbose_name='descrição')
     alunos = models.BooleanField(default=False)
-    candidatos = models.BooleanField(default=False)
+    inscritos = models.BooleanField(default=False)
     leads = models.BooleanField(default=False)
 
     def __str__(self):
