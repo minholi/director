@@ -1,5 +1,6 @@
 from django.db import models
 import acoes.models as ma
+from ingresso.models import Inscrito
 
 class Situacao(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -44,14 +45,18 @@ class Lead(models.Model):
     email = models.EmailField()
     celular = models.CharField(max_length=15, blank=True, null=True)
     status = models.ForeignKey(Status, on_delete=models.PROTECT)
-    naoligar = models.BooleanField(default=False, verbose_name='não ligar')
+    nao_ligar = models.BooleanField(default=False, verbose_name='não ligar')
+    # TODO: Registrar log de atendimentos marcados e desmarcar automaticamente após 10 minutos
+    em_atendimento = models.BooleanField(default=False, verbose_name='em atendimento')
     origem = models.ForeignKey(Origem, on_delete=models.PROTECT)
     cadastral = models.ForeignKey(Cadastral, on_delete=models.PROTECT, verbose_name='situação')
     criacao = models.DateTimeField(auto_now_add=True, verbose_name='criação')
     atualizacao = models.DateTimeField(auto_now=True, verbose_name='atualização')
+    inscricoes = models.ManyToManyField(Inscrito, through='Conversao')
 
     def __str__(self):
         return '%s - %s' % (self.nome, self.origem)
+
 
 class AcaoManager(models.Manager):
     def get_queryset(self):
@@ -62,14 +67,31 @@ class Acao(ma.Acao):
     objects = AcaoManager()
     class Meta:
         proxy = True
+        verbose_name = 'ação'
+        verbose_name_plural = 'ações'
 
 
 class Atendimento(ma.Atendimento):
     lead = models.ForeignKey(Lead, on_delete=models.CASCADE)
-    acao = models.ForeignKey(Acao, on_delete=models.CASCADE, related_name='leads')
+    acao = models.ForeignKey(Acao, on_delete=models.PROTECT, related_name='leads', verbose_name='ação')
 
     def __str__(self):
         return '%s - %s - %s' % (self.lead, self.acao, self.data)
 
     class Meta:
         verbose_name = 'atendimento'
+
+
+class Conversao(models.Model):
+    lead = models.ForeignKey(Lead, on_delete=models.CASCADE)
+    inscrito = models.ForeignKey(Inscrito, on_delete=models.CASCADE)
+    acao = models.ForeignKey(Acao, on_delete=models.PROTECT, verbose_name='ação')
+    data = models.DateField()
+    data_cadastro = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return '%s - %s - %s' % (self.inscrito, self.acao, self.data)
+
+    class Meta:
+        verbose_name = 'conversão'
+        verbose_name_plural = 'conversões'

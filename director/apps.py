@@ -8,6 +8,7 @@ class SuitConfig(DjangoSuitConfig):
         ParentItem('Captação', children=[
             ChildItem(model='captacao.lead'),
             ChildItem(model='captacao.atendimento'),
+            ChildItem(model='captacao.conversao'),
             ChildItem(model='captacao.cadastral'),
             ChildItem(model='captacao.origem'),
             ChildItem(model='captacao.status'),

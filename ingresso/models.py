@@ -45,11 +45,12 @@ class Acao(ma.Acao):
     objects = AcaoManager()
     class Meta:
         proxy = True
-
+        verbose_name = 'ação'
+        verbose_name_plural = 'ações'
 
 class Atendimento(ma.Atendimento):
     inscrito = models.ForeignKey(Inscrito, on_delete=models.CASCADE)
-    acao = models.ForeignKey(Acao, on_delete=models.CASCADE, related_name='inscritos')
+    acao = models.ForeignKey(Acao, on_delete=models.CASCADE, related_name='inscritos', verbose_name='ação')
 
     def __str__(self):
         return '%s - %s - %s' % (self.inscrito, self.acao, self.data)
