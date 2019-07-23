@@ -1,5 +1,5 @@
 from django.db import models
-import acoes.models as models_acoes
+import acoes.models as ma
 
 class Situacao(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -58,6 +58,8 @@ class Aluno(models.Model):
     documentacao = models.ForeignKey(Documentacao, on_delete=models.PROTECT, verbose_name='documentação')
     andamento = models.ForeignKey(Andamento, on_delete=models.PROTECT)
     cadastral = models.ForeignKey(Cadastral, on_delete=models.PROTECT, verbose_name='situação')
+    criacao = models.DateTimeField(auto_now_add=True, verbose_name='criação')
+    atualizacao = models.DateTimeField(auto_now=True, verbose_name='atualização')
 
     def __str__(self):
         return '%s - %s' % (self.ra, self.nome)
@@ -68,15 +70,15 @@ class AcaoManager(models.Manager):
         return super(AcaoManager, self).get_queryset().filter(
             tipo__alunos=True)
 
-class Acao(models_acoes.Acao):
+class Acao(ma.Acao):
     objects = AcaoManager()
     class Meta:
         proxy = True
 
 
-class Atendimento(models_acoes.Atendimento):
+class Atendimento(ma.Atendimento):
     aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
-    acao = models.ForeignKey(Acao, on_delete=models.CASCADE)
+    acao = models.ForeignKey(Acao, on_delete=models.CASCADE, related_name='alunos')
 
     def __str__(self):
         return '%s - %s - %s' % (self.aluno, self.acao, self.data)

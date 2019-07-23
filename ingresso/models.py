@@ -1,4 +1,5 @@
 from django.db import models
+import acoes.models as ma
 
 class Situacao(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -18,7 +19,7 @@ class Cadastral(Situacao):
         verbose_name = "sit. cadastral"
         verbose_name_plural = "sit. cadastrais"
 
-class Candidato(models.Model):
+class Inscrito(models.Model):
     codigo = models.CharField(max_length=20, verbose_name='código', primary_key=True)
     nome = models.CharField(max_length=255)
     cpf = models.CharField(max_length=14, verbose_name='CPF')
@@ -28,6 +29,30 @@ class Candidato(models.Model):
     ano = models.CharField(max_length=4)
     periodo = models.CharField(max_length=2)
     cadastral = models.ForeignKey(Cadastral, on_delete=models.PROTECT, verbose_name='situação')
+    criacao = models.DateTimeField(auto_now_add=True, verbose_name='criação')
+    atualizacao = models.DateTimeField(auto_now=True, verbose_name='atualização')
 
     def __str__(self):
         return '%s - %s' % (self.codigo, self.nome)
+
+
+class AcaoManager(models.Manager):
+    def get_queryset(self):
+        return super(AcaoManager, self).get_queryset().filter(
+            tipo__inscritos=True)
+
+class Acao(ma.Acao):
+    objects = AcaoManager()
+    class Meta:
+        proxy = True
+
+
+class Atendimento(ma.Atendimento):
+    inscrito = models.ForeignKey(Inscrito, on_delete=models.CASCADE)
+    acao = models.ForeignKey(Acao, on_delete=models.CASCADE, related_name='inscritos')
+
+    def __str__(self):
+        return '%s - %s - %s' % (self.inscrito, self.acao, self.data)
+
+    class Meta:
+        verbose_name = 'atendimento'
