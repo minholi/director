@@ -4,4 +4,6 @@ django-controlcenter==0.2.9
 django-import-export==1.2.0
 django-localflavor==2.2
  -e git://github.com/darklow/django-suit.git@v2#egg=django-suit
+django-suit-dashboard==2.0.6
+django-taggit==1.1.0
 redis==3.2.1

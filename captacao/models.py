@@ -1,6 +1,7 @@
 from django.db import models
 import acoes.models as ma
 from ingresso.models import Inscrito
+from taggit.managers import TaggableManager
 
 class Situacao(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -42,8 +43,17 @@ class Origem(models.Model):
 
 class Lead(models.Model):
     nome = models.CharField(max_length=255)
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
+    telefone = models.CharField(max_length=15, blank=True, null=True)
     celular = models.CharField(max_length=15, blank=True, null=True)
+    site = models.URLField(blank=True, null=True)
+    cidade = models.CharField(max_length=255, null=True, blank=True)
+    estado = models.CharField(max_length=2, null=True, blank=True)
+    pais = models.CharField(max_length=255, null=True, blank=True)
+    twitter = models.CharField(max_length=255, null=True, blank=True)
+    facebook = models.CharField(max_length=255, null=True, blank=True)
+    linkedin = models.CharField(max_length=255, null=True, blank=True)
+    obs = models.TextField(blank=True, null=True)
     status = models.ForeignKey(Status, on_delete=models.PROTECT)
     nao_ligar = models.BooleanField(default=False, verbose_name='não ligar')
     # TODO: Registrar log de atendimentos marcados e desmarcar automaticamente após 10 minutos
@@ -54,8 +64,10 @@ class Lead(models.Model):
     atualizacao = models.DateTimeField(auto_now=True, verbose_name='atualização')
     inscricoes = models.ManyToManyField(Inscrito, through='Conversao')
 
+    tags = TaggableManager(blank=True)
+
     def __str__(self):
-        return '%s - %s' % (self.nome, self.origem)
+        return self.nome
 
 
 class AcaoManager(models.Manager):

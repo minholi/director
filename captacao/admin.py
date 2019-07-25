@@ -14,6 +14,7 @@ class ConversaoInline(admin.TabularInline):
 @admin.register(Lead)
 class LeadAdmin(admin.ModelAdmin):
     inlines = [ConversaoInline, AtendimentoInline]
+    list_display = ('nome', 'email', 'celular', 'status', 'nao_ligar', 'em_atendimento')
 
 admin.site.register(Cadastral)
 admin.site.register(Origem)
