@@ -1,0 +1,212 @@
+[
+    {
+        "model": "relacionamento.presenca",
+        "pk": 1,
+        "fields": {
+            "situacao": "Presente",
+            "descricao": "Aluno presente no \u00faltimo momento presencial realizado",
+            "conversivel": false,
+            "conversao": null
+        }
+    },
+    {
+        "model": "relacionamento.presenca",
+        "pk": 2,
+        "fields": {
+            "situacao": "Ausente",
+            "descricao": "Aluno ausente no \u00faltimo momento presencial realizado",
+            "conversivel": true,
+            "conversao": 1
+        }
+    },
+    {
+        "model": "relacionamento.nota",
+        "pk": 1,
+        "fields": {
+            "situacao": "\ud83e\udc45 M\u00e9dia",
+            "descricao": "Aluno com notas acima da m\u00e9dia necess\u00e1ria para aprova\u00e7\u00e3o",
+            "conversivel": false,
+            "conversao": null
+        }
+    },
+    {
+        "model": "relacionamento.nota",
+        "pk": 2,
+        "fields": {
+            "situacao": "\ud83e\udc47 M\u00e9dia",
+            "descricao": "Aluno com notas abaixo da m\u00e9dia necess\u00e1ria para aprova\u00e7\u00e3o",
+            "conversivel": true,
+            "conversao": 1
+        }
+    },
+    {
+        "model": "relacionamento.atividade",
+        "pk": 1,
+        "fields": {
+            "situacao": "Regular",
+            "descricao": "Aluno em dia com suas atividades",
+            "conversivel": false,
+            "conversao": null
+        }
+    },
+    {
+        "model": "relacionamento.atividade",
+        "pk": 2,
+        "fields": {
+            "situacao": "Pr\u00e9-evas\u00e3o",
+            "descricao": "Aluno entre 15 e 30 dias sem realizar atividades",
+            "conversivel": true,
+            "conversao": 1
+        }
+    },
+    {
+        "model": "relacionamento.atividade",
+        "pk": 3,
+        "fields": {
+            "situacao": "Evas\u00e3o",
+            "descricao": "Aluno a mais de 30 dias sem realizar atividades",
+            "conversivel": true,
+            "conversao": 1
+        }
+    },
+    {
+        "model": "relacionamento.atividade",
+        "pk": 4,
+        "fields": {
+            "situacao": "Ocioso",
+            "descricao": "Aluno sem atividades definidas neste per\u00edodo",
+            "conversivel": false,
+            "conversao": null
+        }
+    },
+    {
+        "model": "relacionamento.financeira",
+        "pk": 1,
+        "fields": {
+            "situacao": "Adimplente",
+            "descricao": "Aluno em dia com seus pagamentos",
+            "conversivel": false,
+            "conversao": null
+        }
+    },
+    {
+        "model": "relacionamento.financeira",
+        "pk": 2,
+        "fields": {
+            "situacao": "Inadimplente",
+            "descricao": "Aluno em d\u00e9bito com os seus pagamentos",
+            "conversivel": true,
+            "conversao": 1
+        }
+    },
+    {
+        "model": "relacionamento.matricula",
+        "pk": 1,
+        "fields": {
+            "situacao": "Regular",
+            "descricao": "Aluno com a matr\u00edcula regular no per\u00edodo",
+            "conversivel": false,
+            "conversao": null
+        }
+    },
+    {
+        "model": "relacionamento.matricula",
+        "pk": 2,
+        "fields": {
+            "situacao": "Irregular",
+            "descricao": "Aluno com a matr\u00edcula irregular no per\u00edodo",
+            "conversivel": true,
+            "conversao": 1
+        }
+    },
+    {
+        "model": "relacionamento.documentacao",
+        "pk": 1,
+        "fields": {
+            "situacao": "Regular",
+            "descricao": "Aluno com toda a documenta\u00e7\u00e3o obrigat\u00f3ria entregue",
+            "conversivel": false,
+            "conversao": null
+        }
+    },
+    {
+        "model": "relacionamento.documentacao",
+        "pk": 2,
+        "fields": {
+            "situacao": "Irregular",
+            "descricao": "Aluno devendo documenta\u00e7\u00e3o obrigat\u00f3ria",
+            "conversivel": true,
+            "conversao": 1
+        }
+    },
+    {
+        "model": "relacionamento.andamento",
+        "pk": 1,
+        "fields": {
+            "situacao": "Ingressante",
+            "descricao": "Aluno ingressante do per\u00edodo letivo corrente",
+            "conversivel": false,
+            "conversao": null
+        }
+    },
+    {
+        "model": "relacionamento.andamento",
+        "pk": 2,
+        "fields": {
+            "situacao": "Intermedi\u00e1rio",
+            "descricao": "Aluno cursando s\u00e9ries intermedi\u00e1rias de seu curso no per\u00edodo letivo corrente",
+            "conversivel": false,
+            "conversao": null
+        }
+    },
+    {
+        "model": "relacionamento.andamento",
+        "pk": 3,
+        "fields": {
+            "situacao": "Conclu\u00ednte",
+            "descricao": "Aluno cursando a \u00faltima s\u00e9rie de seu curso no per\u00edodo letivo corrente",
+            "conversivel": false,
+            "conversao": null
+        }
+    },
+    {
+        "model": "relacionamento.cadastral",
+        "pk": 1,
+        "fields": {
+            "situacao": "Ativo",
+            "descricao": "Aluno ativo",
+            "conversivel": false,
+            "conversao": null
+        }
+    },
+    {
+        "model": "relacionamento.cadastral",
+        "pk": 2,
+        "fields": {
+            "situacao": "Trancado",
+            "descricao": "Aluno com a matr\u00edcula trancada",
+            "conversivel": true,
+            "conversao": 1
+        }
+    },
+    {
+        "model": "relacionamento.cadastral",
+        "pk": 3,
+        "fields": {
+            "situacao": "Cancelado",
+            "descricao": "Aluno com a matr\u00edcula cancelada",
+            "conversivel": false,
+            "conversao": null
+        }
+    },
+    {
+        "model": "relacionamento.cadastral",
+        "pk": 4,
+        "fields": {
+            "situacao": "Conclu\u00eddo",
+            "descricao": "Aluno que concluiu seu curso",
+            "conversivel": false,
+            "conversao": null
+        }
+    }
+]
