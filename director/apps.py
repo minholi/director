@@ -17,6 +17,7 @@ class SuitConfig(DjangoSuitConfig):
             ChildItem(model='ingresso.inscrito'),
             ChildItem(model='ingresso.atendimento'),
             ChildItem(model='ingresso.cadastral'),
+            ChildItem(model='ingresso.status'),
         ],),
         ParentItem('Relacionamento', children=[
             ChildItem(model='relacionamento.aluno'),
@@ -31,6 +32,7 @@ class SuitConfig(DjangoSuitConfig):
             ChildItem(model='relacionamento.andamento'),
             ChildItem(model='relacionamento.documentacao'),
             ChildItem(model='relacionamento.cadastral'),
+            ChildItem(model='relacionamento.status'),
         ],),
         ParentItem('Ações', children=[
             ChildItem(model='acoes.acao'),

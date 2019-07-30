@@ -43,6 +43,16 @@ class Cadastral(Situacao):
     class Meta:
         verbose_name_plural = "cadastrais"
 
+class Status(models.Model):
+    nome = models.CharField(max_length=255)
+    descricao = models.TextField(blank=True, verbose_name='descrição')
+
+    def __str__(self):
+        return self.nome
+
+    class Meta:
+        verbose_name_plural = 'status'
+
 class Aluno(models.Model):
     ra = models.CharField(max_length=20, verbose_name='RA', primary_key=True)
     nome = models.CharField(max_length=255)
@@ -58,6 +68,8 @@ class Aluno(models.Model):
     documentacao = models.ForeignKey(Documentacao, on_delete=models.PROTECT, verbose_name='documentação')
     andamento = models.ForeignKey(Andamento, on_delete=models.PROTECT)
     cadastral = models.ForeignKey(Cadastral, on_delete=models.PROTECT, verbose_name='situação')
+    obs = models.TextField(blank=True, null=True)
+    status = models.ForeignKey(Status, on_delete=models.PROTECT, blank=True, null=True)
     criacao = models.DateTimeField(auto_now_add=True, verbose_name='criação')
     atualizacao = models.DateTimeField(auto_now=True, verbose_name='atualização')
 

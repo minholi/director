@@ -54,7 +54,7 @@ class Lead(models.Model):
     facebook = models.CharField(max_length=255, null=True, blank=True)
     linkedin = models.CharField(max_length=255, null=True, blank=True)
     obs = models.TextField(blank=True, null=True)
-    status = models.ForeignKey(Status, on_delete=models.PROTECT)
+    status = models.ForeignKey(Status, on_delete=models.PROTECT, blank=True, null=True)
     nao_ligar = models.BooleanField(default=False, verbose_name='não ligar')
     # TODO: Registrar log de atendimentos marcados e desmarcar automaticamente após 10 minutos
     em_atendimento = models.BooleanField(default=False, verbose_name='em atendimento')
@@ -85,13 +85,24 @@ class Acao(ma.Acao):
 
 class Atendimento(ma.Atendimento):
     lead = models.ForeignKey(Lead, on_delete=models.CASCADE)
-    acao = models.ForeignKey(Acao, on_delete=models.PROTECT, related_name='leads', verbose_name='ação')
+    acao = models.ForeignKey(Acao, on_delete=models.PROTECT, related_name='atendimentos', verbose_name='ação')
 
     def __str__(self):
         return '%s - %s - %s' % (self.lead, self.acao, self.data)
 
     class Meta:
         verbose_name = 'atendimento'
+
+
+class ContatoAgendado(ma.ContatoAgendado):
+    lead = models.ForeignKey(Lead, on_delete=models.CASCADE)
+    acao = models.ForeignKey(Acao, on_delete=models.PROTECT, related_name='contatos_agendados', verbose_name='ação')
+
+    def __str__(self):
+        return '%s - %s - %s' % (self.lead, self.acao, self.data)
+
+    class Meta:
+        verbose_name_plural = 'contatos agendados'
 
 
 class Conversao(models.Model):

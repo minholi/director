@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Inscrito, Cadastral, Atendimento
+from .models import Inscrito, Cadastral, Atendimento, Status
 
 class AtendimentoInline(admin.StackedInline):
     model = Atendimento
@@ -14,3 +14,4 @@ class InscritoAdmin(admin.ModelAdmin):
 
 admin.site.register(Atendimento)
 admin.site.register(Cadastral)
+admin.site.register(Status)
