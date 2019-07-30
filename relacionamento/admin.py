@@ -37,7 +37,7 @@ class AlunoAdmin(ImportExportModelAdmin):
 
 @admin.register(Presenca, Nota, Atividade, Financeira, Matricula, Documentacao, Andamento, Cadastral)
 class SituacaoAdmin(admin.ModelAdmin):
-    list_display = ('id', 'situacao', 'descricao')
+    list_display = ('id', 'situacao', 'conversivel', 'descricao')
     list_display_links = ('id', 'situacao')
 
 @admin.register(Atendimento)
