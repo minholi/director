@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Aluno, Presenca, Nota, Atividade, Financeira, Matricula, Documentacao, Andamento, Cadastral, Atendimento
+from .models import Aluno, Presenca, Nota, Atividade, Financeira, Matricula, Documentacao, Andamento, Cadastral, Atendimento, Status
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 from suit import apps
@@ -19,9 +19,9 @@ class AtendimentoInline(admin.StackedInline):
 
 @admin.register(Aluno)
 class AlunoAdmin(ImportExportModelAdmin):
-    list_display = ('ra', 'nome', 'curso', 'polo', 'presenca', 'nota', 'financeira', 'matricula')
+    list_display = ('ra', 'nome', 'curso', 'polo', 'presenca', 'nota', 'financeira', 'matricula', 'status')
     list_display_links = ('ra', 'nome')
-    list_filter = ('curso', 'polo', 'curriculo', 'serie', 'presenca', 'nota', 'financeira', 'matricula', 'documentacao', 'andamento', 'cadastral')
+    list_filter = ('curso', 'polo', 'curriculo', 'serie', 'presenca', 'nota', 'financeira', 'matricula', 'documentacao', 'andamento', 'cadastral', 'status')
     search_fields = ('ra', 'nome', 'cpf')
     resource_class = AlunoResource
     inlines = [AtendimentoInline,]
@@ -43,3 +43,5 @@ class SituacaoAdmin(admin.ModelAdmin):
 @admin.register(Atendimento)
 class AtendimentoAdmin(admin.ModelAdmin):
     pass
+
+admin.site.register(Status)

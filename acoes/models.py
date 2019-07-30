@@ -39,3 +39,11 @@ class Atendimento(models.Model):
         abstract = True
 
 
+class ContatoAgendado(models.Model):
+    data = models.DateTimeField()
+    realizado = models.DateTimeField(null=True, blank=True)
+    exito = models.BooleanField(default=False, verbose_name='êxito')
+
+    class Meta:
+        abstract = True
+
