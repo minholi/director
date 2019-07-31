@@ -7,7 +7,7 @@ class TipoAcao(models.Model):
     descricao = models.TextField(blank=True, verbose_name='descrição')
     alunos = models.BooleanField(default=False)
     inscritos = models.BooleanField(default=False)
-    leads = models.BooleanField(default=False)
+    contatos = models.BooleanField(default=False)
 
     def __str__(self):
         return self.nome
@@ -39,7 +39,7 @@ class Atendimento(models.Model):
         abstract = True
 
 
-class ContatoAgendado(models.Model):
+class AtendimentoAgendado(models.Model):
     data = models.DateTimeField()
     realizado = models.DateTimeField(null=True, blank=True)
     exito = models.BooleanField(default=False, verbose_name='êxito')

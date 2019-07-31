@@ -6,8 +6,9 @@ class SuitConfig(DjangoSuitConfig):
 
     menu = (
         ParentItem('Captação', children=[
-            ChildItem(model='captacao.lead'),
+            ChildItem(model='captacao.contato'),
             ChildItem(model='captacao.atendimento'),
+            ChildItem('Atend. Agendados', model='captacao.atendimentoagendado'),
             ChildItem(model='captacao.conversao'),
             ChildItem(model='captacao.cadastral'),
             ChildItem(model='captacao.origem'),

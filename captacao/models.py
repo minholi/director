@@ -41,7 +41,7 @@ class Origem(models.Model):
     class Meta:
         verbose_name_plural = 'origens'
 
-class Lead(models.Model):
+class Contato(models.Model):
     nome = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
     telefone = models.CharField(max_length=15, blank=True, null=True)
@@ -69,11 +69,17 @@ class Lead(models.Model):
     def __str__(self):
         return self.nome
 
+    # TODO: Usar o annotate pra transformar isso em algo que possa ser usado para ordenar a listagem e melhorar a performance
+    def proximo_atendimento_agendado(self):
+        paa = self.atendimentoagendado_set.filter(realizado__isnull=True).order_by('data').first()
+        return paa.data
+    proximo_atendimento_agendado.short_description = 'próx. atend. agendado'    
+
 
 class AcaoManager(models.Manager):
     def get_queryset(self):
         return super(AcaoManager, self).get_queryset().filter(
-            tipo__leads=True)
+            tipo__contatos=True)
 
 class Acao(ma.Acao):
     objects = AcaoManager()
@@ -84,29 +90,29 @@ class Acao(ma.Acao):
 
 
 class Atendimento(ma.Atendimento):
-    lead = models.ForeignKey(Lead, on_delete=models.CASCADE)
+    contato = models.ForeignKey(Contato, on_delete=models.CASCADE)
     acao = models.ForeignKey(Acao, on_delete=models.PROTECT, related_name='atendimentos', verbose_name='ação')
 
     def __str__(self):
-        return '%s - %s - %s' % (self.lead, self.acao, self.data)
+        return '%s - %s - %s' % (self.contato, self.acao, self.data)
 
     class Meta:
         verbose_name = 'atendimento'
 
 
-class ContatoAgendado(ma.ContatoAgendado):
-    lead = models.ForeignKey(Lead, on_delete=models.CASCADE)
-    acao = models.ForeignKey(Acao, on_delete=models.PROTECT, related_name='contatos_agendados', verbose_name='ação')
+class AtendimentoAgendado(ma.AtendimentoAgendado):
+    contato = models.ForeignKey(Contato, on_delete=models.CASCADE)
+    acao = models.ForeignKey(Acao, on_delete=models.PROTECT, related_name='atendimentos_agendados', verbose_name='ação')
 
     def __str__(self):
-        return '%s - %s - %s' % (self.lead, self.acao, self.data)
+        return '%s - %s - %s' % (self.contato, self.acao, self.data)
 
     class Meta:
-        verbose_name_plural = 'contatos agendados'
+        verbose_name_plural = 'atendimentos agendados'
 
 
 class Conversao(models.Model):
-    lead = models.ForeignKey(Lead, on_delete=models.CASCADE)
+    contato = models.ForeignKey(Contato, on_delete=models.CASCADE)
     inscrito = models.ForeignKey(Inscrito, on_delete=models.CASCADE)
     acao = models.ForeignKey(Acao, on_delete=models.PROTECT, verbose_name='ação')
     data = models.DateField()
