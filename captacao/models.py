@@ -99,7 +99,7 @@ class AtendimentoAgendado(ma.AtendimentoAgendado):
     acao = models.ForeignKey(Acao, on_delete=models.PROTECT, related_name='atendimentos_agendados', verbose_name='ação')
 
     def __str__(self):
-        return '%s - %s - %s' % (self.contato, self.acao, self.data)
+        return self.data.strftime('%d/%m/%Y às %H:%M')
 
     class Meta:
         verbose_name_plural = 'atendimentos agendados'

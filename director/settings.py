@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'suit_dashboard',
+    'autenticacao',
     'acoes',
     'captacao',
     'ingresso',
@@ -128,6 +129,9 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Custom Auth User Model
+AUTH_USER_MODEL = 'autenticacao.Usuario'
 
 # Celery settings
 from celery.schedules import crontab
