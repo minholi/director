@@ -69,12 +69,6 @@ class Contato(models.Model):
     def __str__(self):
         return self.nome
 
-    # TODO: Usar o annotate pra transformar isso em algo que possa ser usado para ordenar a listagem e melhorar a performance
-    def proximo_atendimento_agendado(self):
-        paa = self.atendimentoagendado_set.filter(realizado__isnull=True).order_by('data').first()
-        return paa.data
-    proximo_atendimento_agendado.short_description = 'próx. atend. agendado'    
-
 
 class AcaoManager(models.Manager):
     def get_queryset(self):
