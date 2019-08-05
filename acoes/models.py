@@ -1,4 +1,5 @@
 from django.db import models
+from autenticacao.models import Usuario
 
 # TODO: Vincular situações com tipos de ações
 # isso permitirá relacionar ações e conversões
@@ -32,6 +33,7 @@ class Acao(models.Model):
 
 
 class Atendimento(models.Model):
+    colaborador = models.ForeignKey(Usuario, on_delete=models.PROTECT)
     data = models.DateTimeField(auto_now_add=True)
     obs = models.TextField(blank=True)
 
@@ -40,6 +42,7 @@ class Atendimento(models.Model):
 
 
 class AtendimentoAgendado(models.Model):
+    colaborador = models.ForeignKey(Usuario, on_delete=models.PROTECT)
     data = models.DateTimeField()
     realizado = models.DateTimeField(null=True, blank=True)
     exito = models.BooleanField(default=False, verbose_name='êxito')

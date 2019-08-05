@@ -2,6 +2,7 @@ from django.db import models
 import acoes.models as ma
 from ingresso.models import Inscrito
 from taggit.managers import TaggableManager
+from autenticacao.models import Usuario
 
 class Situacao(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -88,7 +89,7 @@ class Atendimento(ma.Atendimento):
     acao = models.ForeignKey(Acao, on_delete=models.PROTECT, related_name='atendimentos', verbose_name='ação')
 
     def __str__(self):
-        return '%s - %s - %s' % (self.contato, self.acao, self.data)
+        return '%s - %s - %s' % (self.colaborador, self.acao, self.data)
 
     class Meta:
         verbose_name = 'atendimento'
@@ -106,6 +107,7 @@ class AtendimentoAgendado(ma.AtendimentoAgendado):
 
 
 class Conversao(models.Model):
+    colaborador = models.ForeignKey(Usuario, on_delete=models.PROTECT)
     contato = models.ForeignKey(Contato, on_delete=models.CASCADE)
     inscrito = models.ForeignKey(Inscrito, on_delete=models.CASCADE)
     acao = models.ForeignKey(Acao, on_delete=models.PROTECT, verbose_name='ação')

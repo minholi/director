@@ -32,6 +32,18 @@ class ContatoAdmin(admin.ModelAdmin):
         qs = qs.annotate(_prox_aa=Subquery(agendados.values('data')[:1]))
         return qs
 
+    def save_formset(self, request, form, formset, change):
+        """
+        Salva o colaborador que realizou o cadastro do atendimento, conversão ou agendamento.
+        """
+        instances = formset.save(commit=False)
+        for obj in formset.deleted_objects:
+            obj.delete()
+        for instance in instances:
+            instance.colaborador = request.user
+            instance.save()
+        formset.save_m2m()
+
     def prox_aa(self, obj):
         return obj._prox_aa
     prox_aa.admin_order_field = 'prox_aa'

@@ -62,10 +62,11 @@ class Acao(ma.Acao):
 
 class Atendimento(ma.Atendimento):
     inscrito = models.ForeignKey(Inscrito, on_delete=models.CASCADE)
-    acao = models.ForeignKey(Acao, on_delete=models.CASCADE, related_name='inscritos', verbose_name='ação')
+    acao = models.ForeignKey(Acao, on_delete=models.CASCADE, verbose_name='ação')
 
     def __str__(self):
         return '%s - %s - %s' % (self.inscrito, self.acao, self.data)
 
     class Meta:
         verbose_name = 'atendimento'
+        default_related_name = 'inscritos'
