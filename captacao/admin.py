@@ -10,6 +10,7 @@ class AtendimentoInline(admin.StackedInline):
 
 class ConversaoInline(admin.TabularInline):
     model = Conversao
+    fields = ('inscrito', 'acao', 'data')
     extra = 1
 
 class AtendimentoAgendadoInline(admin.TabularInline):

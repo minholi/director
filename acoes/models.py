@@ -1,5 +1,5 @@
 from django.db import models
-from autenticacao.models import Usuario
+from estrutura.models import Usuario
 
 # TODO: Vincular situações com tipos de ações
 # isso permitirá relacionar ações e conversões

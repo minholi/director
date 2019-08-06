@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'suit_dashboard',
-    'autenticacao',
+    'estrutura',
     'acoes',
     'captacao',
     'ingresso',
@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'import_export',
     'controlcenter',
     'taggit',
+    'fsm_admin',
+    'django_fsm_log',
 ]
 
 MIDDLEWARE = [
@@ -58,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_currentuser.middleware.ThreadLocalUserMiddleware',
 ]
 
 ROOT_URLCONF = 'director.urls'
@@ -131,7 +134,7 @@ USE_TZ = False
 STATIC_URL = '/static/'
 
 # Custom Auth User Model
-AUTH_USER_MODEL = 'autenticacao.Usuario'
+AUTH_USER_MODEL = 'estrutura.Usuario'
 
 # Celery settings
 from celery.schedules import crontab

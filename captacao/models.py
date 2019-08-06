@@ -2,7 +2,7 @@ from django.db import models
 import acoes.models as ma
 from ingresso.models import Inscrito
 from taggit.managers import TaggableManager
-from autenticacao.models import Usuario
+from estrutura.models import Usuario
 
 class Situacao(models.Model):
     id = models.IntegerField(primary_key=True)
