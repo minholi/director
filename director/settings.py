@@ -45,11 +45,13 @@ INSTALLED_APPS = [
     'ingresso',
     'relacionamento',
     'log',
+    'suporte',
     'import_export',
     'controlcenter',
     'taggit',
     'fsm_admin',
     'django_fsm_log',
+    'selectable',
 ]
 
 MIDDLEWARE = [

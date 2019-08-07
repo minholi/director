@@ -1,9 +1,20 @@
 from django.contrib import admin
 from .models import Contato, Cadastral, Origem, Status, Atendimento, Conversao, AtendimentoAgendado
 from django.db.models import OuterRef, Subquery
+from django.forms import ModelForm, Select
+from suit.widgets import AutosizedTextarea
 
+
+class AtendimentoInlineForm(ModelForm):
+    class Meta:
+        widgets = {
+            'obs': AutosizedTextarea(attrs={'rows': 1}),
+            'acao': Select(attrs={'class': 'input-small'}),
+        }
+  
 class AtendimentoInline(admin.StackedInline):
     model = Atendimento
+    form = AtendimentoInlineForm
     fields = ('obs', 'acao')
     extra = 1
     can_delete = False
@@ -18,10 +29,17 @@ class AtendimentoAgendadoInline(admin.TabularInline):
     fields = ('data', 'acao', 'realizado', 'exito')
     extra = 1
 
+class ContatoForm(ModelForm):
+    class Meta:
+        widgets = {
+            'obs': AutosizedTextarea(attrs={'rows': 2}),
+        }
+
 @admin.register(Contato)
 class ContatoAdmin(admin.ModelAdmin):
     inlines = [ConversaoInline, AtendimentoAgendadoInline, AtendimentoInline]
     list_display = ('nome', 'email', 'celular', 'status', 'nao_ligar', 'em_atendimento', 'prox_aa')
+    form = ContatoForm
 
     def get_queryset(self, request):
         agendados = AtendimentoAgendado.objects.filter(

@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 from controlcenter.views import controlcenter
 
 
@@ -25,4 +25,5 @@ admin.site.site_url = None
 urlpatterns = [
     path('', admin.site.urls),
     path('dashboard/', controlcenter.urls),
+    path('selectable/', include('selectable.urls')),
 ]
