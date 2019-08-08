@@ -25,5 +25,4 @@ admin.site.site_url = None
 urlpatterns = [
     path('', admin.site.urls),
     path('dashboard/', controlcenter.urls),
-    path('selectable/', include('selectable.urls')),
 ]

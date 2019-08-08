@@ -1,5 +1,6 @@
 celery==4.3.0
 Django==2.2.3
+django-autocomplete-light==3.4.1
 django-controlcenter==0.2.9
 django-currentuser==0.4.2
 django-fsm==2.6.1
@@ -7,7 +8,6 @@ django-fsm-admin==1.2.4
 django-fsm-log==1.6.2
 django-import-export==1.2.0
 django-localflavor==2.2
-django-selectable==1.2.1
  -e git://github.com/darklow/django-suit.git@v2#egg=django-suit
 django-suit-dashboard==2.0.6
 django-taggit==1.1.0

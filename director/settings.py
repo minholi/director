@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'dal',
+    'dal_select2',
     'director.apps.SuitConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -51,7 +53,6 @@ INSTALLED_APPS = [
     'taggit',
     'fsm_admin',
     'django_fsm_log',
-    'selectable',
 ]
 
 MIDDLEWARE = [
