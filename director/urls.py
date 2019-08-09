@@ -17,7 +17,6 @@ from django.contrib import admin
 from django.urls import include, path
 from controlcenter.views import controlcenter
 
-
 admin.site.site_header = 'Director'
 admin.site.site_title = 'Director'
 admin.site.site_url = None
@@ -25,4 +24,5 @@ admin.site.site_url = None
 urlpatterns = [
     path('', admin.site.urls),
     path('dashboard/', controlcenter.urls),
+    path('suporte/', include('suporte.urls'))
 ]

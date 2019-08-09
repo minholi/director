@@ -1,7 +1,19 @@
 from django import forms
 from estrutura.models import Setor
-from .models import Categoria
+from .models import Chamado
+from dal import autocomplete
 
 
 class ChamadoForm(forms.ModelForm):
-    pass
+
+    class Meta:
+        model = Chamado
+        fields = ('__all__')
+        widgets = {
+            'categoria': autocomplete.ModelSelect2(url='chamado-categoria', forward=('setor',))
+        }
+
+    class Media:
+        js = (
+            '/static/js/chamado-categoria.js',
+        )
