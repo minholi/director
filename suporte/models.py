@@ -29,6 +29,7 @@ class Chamado(models.Model):
     solicitante = models.ForeignKey(Usuario, on_delete=models.PROTECT, related_name='solicitantes')
     responsavel = models.ForeignKey(Usuario, null=True, blank=True, on_delete=models.PROTECT, related_name='responsaveis')
     data_atendimento = models.DateTimeField(null=True, blank=True, verbose_name=u'Data do atendimento')
+    data_fechamento = models.DateTimeField(null=True, blank=True, verbose_name=u'Data do fechamento')
     status = FSMField(default = 'aberto', choices = CHAMADO_CHOICES)
 
     def __str__(self):
@@ -44,7 +45,6 @@ class Chamado(models.Model):
     @transition(field=status, source='aberto', target='atendendo', permission='suporte.can_atender', custom={'button_name':'Atender chamado'})
     def atender(self, description=None, by=None):
         description = 'Atendido por %s' % by
-
         self.responsavel = by
         self.data_atendimento = timezone.now()
 
@@ -68,3 +68,11 @@ class Chamado(models.Model):
     def reabrir(self, description=None, by=None):
         description = 'Reaberto por %s' % by
         self.responsavel = by
+
+    @fsm_log_by
+    @fsm_log_description
+    @transition(field=status, source='aberto', target='atendendo', custom={'button_name':'Atender chamado'}) # TODO: Tratar permissão para fechar
+    def fechar(self, description=None, by=None):
+        description = 'Fechado por %s' % by
+        self.responsavel = by
+        self.data_fechamento = timezone.now()
