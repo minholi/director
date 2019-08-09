@@ -12,8 +12,3 @@ class ChamadoForm(forms.ModelForm):
         widgets = {
             'categoria': autocomplete.ModelSelect2(url='chamado-categoria', forward=('setor',))
         }
-
-    class Media:
-        js = (
-            '/static/js/chamado-categoria.js',
-        )

@@ -1,7 +1,9 @@
 from django.db import models
 from estrutura.models import Setor, Usuario
 from django_fsm import FSMField, transition
-from django_currentuser.middleware import get_current_user
+from django_currentuser.middleware import get_current_user # TODO: validar usuario para não atender a si proprio
+from django_fsm_log.decorators import fsm_log_by, fsm_log_description
+from django.utils import timezone
 
 CHAMADO_CHOICES = (
     ('aberto', 'Aberto'),
@@ -24,8 +26,24 @@ class Chamado(models.Model):
     categoria = models.ForeignKey(Categoria, on_delete=models.PROTECT)
     assunto = models.CharField(max_length=255)
     informacoes = models.TextField(verbose_name='informações')
-    solicitante = models.ForeignKey(Usuario, on_delete=models.PROTECT)
+    solicitante = models.ForeignKey(Usuario, on_delete=models.PROTECT, related_name='solicitantes')
+    responsavel = models.ForeignKey(Usuario, null=True, blank=True, on_delete=models.PROTECT, related_name='responsaveis')
+    data_atendimento = models.DateTimeField(null=True, blank=True, verbose_name=u'Data do atendimento')
     status = FSMField(default = 'aberto', choices = CHAMADO_CHOICES)
 
     def __str__(self):
         return self.assunto
+
+    class Meta:
+        permissions = (
+            ("can_atender", "Pode atender chamados"),
+        )
+
+    @fsm_log_by
+    @fsm_log_description
+    @transition(field=status, source='aberto', target='atendendo', permission='suporte.can_atender', custom={'button_name':'Atender chamado'})
+    def atender(self, description=None, by=None):
+        description = 'Atendido por %s' % by
+
+        self.responsavel = by
+        self.data_atendimento = timezone.now()
