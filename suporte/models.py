@@ -47,3 +47,24 @@ class Chamado(models.Model):
 
         self.responsavel = by
         self.data_atendimento = timezone.now()
+
+    @fsm_log_by
+    @fsm_log_description
+    @transition(field=status, source=['aberto', 'atendendo', 'em_espera'], target='duplicado', custom={'button_name':'Marcar como duplicado'}) # TODO: Tratar permissão para marcar como duplicado
+    def marcar_duplicado(self, description=None, by=None):
+        description = 'Marcado como duplicado por %s' % by
+        self.responsavel = by
+
+    @fsm_log_by
+    @fsm_log_description
+    @transition(field=status, source=['aberto', 'atendendo'], target='em_espera', custom={'button_name':'Colocar em espera'}) # TODO: Tratar permissão para colocar em espera
+    def colocar_em_espera(self, description=None, by=None):
+        description = 'Colocado em espera por %s' % by
+        self.responsavel = by
+
+    @fsm_log_by
+    @fsm_log_description
+    @transition(field=status, source=['atendendo', 'em_espera', 'duplicado', 'fechado'], target='aberto', custom={'button_name':'Reabrir chamado'}) # TODO: Tratar permissão para reabrir
+    def reabrir(self, description=None, by=None):
+        description = 'Reaberto por %s' % by
+        self.responsavel = by

@@ -39,4 +39,8 @@ class SuitConfig(DjangoSuitConfig):
             ChildItem(model='acoes.acao'),
             ChildItem(model='acoes.tipoacao'),
         ],),
+        ParentItem('Suporte', children=[
+            ChildItem(model='suporte.chamado'),
+            ChildItem(model='suporte.categoria'),
+        ],),
     )
