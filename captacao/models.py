@@ -23,6 +23,7 @@ class Cadastral(Situacao):
         verbose_name_plural = "sit. cadastrais"
 
 class Status(models.Model):
+    id = models.IntegerField(primary_key=True)
     nome = models.CharField(max_length=255)
     descricao = models.TextField(blank=True, verbose_name='descrição')
 
@@ -33,6 +34,7 @@ class Status(models.Model):
         verbose_name_plural = 'status'
 
 class Origem(models.Model):
+    id = models.IntegerField(primary_key=True)
     nome = models.CharField(max_length=255)
     descricao = models.TextField(blank=True, verbose_name='descrição')
 

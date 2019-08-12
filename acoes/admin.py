@@ -5,4 +5,8 @@ from .models import TipoAcao, Acao
 class TipoAcaoAdmin(admin.ModelAdmin):
     pass
 
+class SituacaoAdmin(admin.ModelAdmin):
+    list_display = ('id', 'situacao', 'descricao', 'conversivel', 'conversao')
+    list_display_links = ('id', 'situacao')
+
 admin.site.register(Acao)

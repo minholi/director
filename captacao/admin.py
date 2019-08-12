@@ -3,6 +3,7 @@ from .models import Contato, Cadastral, Origem, Status, Atendimento, Conversao, 
 from django.db.models import OuterRef, Subquery
 from django.forms import ModelForm, Select
 from suit.widgets import AutosizedTextarea
+import acoes.admin as aa
 
 
 class AtendimentoInlineForm(ModelForm):
@@ -38,7 +39,7 @@ class ContatoForm(ModelForm):
 @admin.register(Contato)
 class ContatoAdmin(admin.ModelAdmin):
     inlines = [ConversaoInline, AtendimentoAgendadoInline, AtendimentoInline]
-    list_display = ('nome', 'email', 'celular', 'status', 'nao_ligar', 'em_atendimento', 'prox_aa')
+    list_display = ('nome', 'email', 'celular', 'status', 'nao_ligar', 'em_atendimento', 'prox_aa', 'cadastral')
     form = ContatoForm
 
     def get_queryset(self, request):
@@ -68,8 +69,17 @@ class ContatoAdmin(admin.ModelAdmin):
     prox_aa.admin_order_field = 'prox_aa'
     prox_aa.short_description = 'próx. atend. agendado'
 
-admin.site.register(Cadastral)
-admin.site.register(Origem)
+
+    @admin.register(Origem)
+    class OrigemAdmin(admin.ModelAdmin):
+        list_display = ('id', 'nome', 'descricao')
+
+
+    @admin.register(Cadastral)
+    class SituacaoAdmin(aa.SituacaoAdmin):
+        pass
+
+
 admin.site.register(Status)
 admin.site.register(Atendimento)
 admin.site.register(AtendimentoAgendado)

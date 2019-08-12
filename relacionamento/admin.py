@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import Aluno, Presenca, Nota, Atividade, Financeira, Matricula, Documentacao, Andamento, Cadastral, Atendimento, Status
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
+import acoes.admin as aa
 from suit import apps
 
 
@@ -36,9 +37,8 @@ class AlunoAdmin(ImportExportModelAdmin):
     """
 
 @admin.register(Presenca, Nota, Atividade, Financeira, Matricula, Documentacao, Andamento, Cadastral)
-class SituacaoAdmin(admin.ModelAdmin):
-    list_display = ('id', 'situacao', 'conversivel', 'descricao')
-    list_display_links = ('id', 'situacao')
+class SituacaoAdmin(aa.SituacaoAdmin):
+    pass
 
 @admin.register(Atendimento)
 class AtendimentoAdmin(admin.ModelAdmin):
