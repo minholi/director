@@ -77,6 +77,36 @@ class Aluno(models.Model):
         return '%s - %s' % (self.ra, self.nome)
 
 
+class Cobranca(models.Model):
+    cobranca = models.IntegerField(unique=True)
+    aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
+    tipo = models.CharField(max_length=20)
+    ano = models.DecimalField(decimal_places=0, max_digits=4)
+    mes = models.DecimalField(decimal_places=0, max_digits=2)
+    data_venc = models.DateField(verbose_name='data de venc.')
+    data_pgto = models.DateField(verbose_name='data de pgto.', null=True, blank=True)
+    val_orig = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='val. orig.')
+    val_final = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='val. final')
+    val_pago = models.DecimalField(decimal_places=2, max_digits=10, blank=True, null=True, verbose_name='val. pago')
+
+    def __str__(self):
+        return self.cobranca
+
+
+class Disciplina(models.Model):
+    disciplina = models.IntegerField()
+    aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
+    nome = models.CharField(max_length=255)
+    ano = models.DecimalField(decimal_places=0, max_digits=4)
+    periodo = models.DecimalField(decimal_places=0, max_digits=2)
+    nota = models.DecimalField(decimal_places=1, max_digits=3)
+    situacao = models.CharField(max_length=20)
+
+    class Meta:
+        unique_together = ['disciplina', 'aluno']
+
+
+
 class AcaoManager(models.Manager):
     def get_queryset(self):
         return super(AcaoManager, self).get_queryset().filter(
