@@ -1,5 +1,5 @@
 from django.db import models
-from relacionamento.models import Aluno, Presenca, Nota, Financeira, Matricula, Documentacao, Andamento, Cadastral
+from relacionamento.models import Aluno, SitPresenca, SitNota, SitFinanceira, SitMatricula, SitDocumentacao, SitAndamento, SitCadastral
 from django.db.models import signals
 from django.dispatch import receiver
 from django.utils import timezone
@@ -15,45 +15,45 @@ class LogAluno(models.Model):
         unique_together = ['aluno', 'data', 'hora']
 
 class TransAlunoPresenca(LogAluno):
-    anterior = models.ForeignKey(Presenca, on_delete=models.CASCADE, related_name='presenca_anterior', blank=True, null=True)
-    situacao = models.ForeignKey(Presenca, on_delete=models.CASCADE)
+    anterior = models.ForeignKey(SitPresenca, on_delete=models.CASCADE, related_name='presenca_anterior', blank=True, null=True)
+    situacao = models.ForeignKey(SitPresenca, on_delete=models.CASCADE)
 
     def __str__(self):
         sit_anterior = self.anterior if self.anterior else 'Nada'
         return '[%s] %s - %s > %s' % (self.data, self.aluno, sit_anterior, self.situacao)
 
 class TransAlunoNota(LogAluno):
-    anterior = models.ForeignKey(Nota, on_delete=models.CASCADE, related_name='nota_anterior', blank=True, null=True)
-    situacao = models.ForeignKey(Nota, on_delete=models.CASCADE)
+    anterior = models.ForeignKey(SitNota, on_delete=models.CASCADE, related_name='nota_anterior', blank=True, null=True)
+    situacao = models.ForeignKey(SitNota, on_delete=models.CASCADE)
 
     def __str__(self):
         sit_anterior = self.anterior if self.anterior else 'Nada'
         return '[%s] %s - %s > %s' % (self.data, self.aluno, sit_anterior, self.situacao)
 
 class TransAlunoFinanceira(LogAluno):
-    anterior = models.ForeignKey(Financeira, on_delete=models.CASCADE, related_name='financeira_anterior', blank=True, null=True)
-    situacao = models.ForeignKey(Financeira, on_delete=models.CASCADE)
+    anterior = models.ForeignKey(SitFinanceira, on_delete=models.CASCADE, related_name='financeira_anterior', blank=True, null=True)
+    situacao = models.ForeignKey(SitFinanceira, on_delete=models.CASCADE)
 
     def __str__(self):
         sit_anterior = self.anterior if self.anterior else 'Nada'
         return '[%s] %s - %s > %s' % (self.data, self.aluno, sit_anterior, self.situacao)
 
 class TransAlunoMatricula(LogAluno):
-    anterior = models.ForeignKey(Matricula, on_delete=models.CASCADE, related_name='matricula_anterior', blank=True, null=True)
-    situacao = models.ForeignKey(Matricula, on_delete=models.CASCADE)
+    anterior = models.ForeignKey(SitMatricula, on_delete=models.CASCADE, related_name='matricula_anterior', blank=True, null=True)
+    situacao = models.ForeignKey(SitMatricula, on_delete=models.CASCADE)
 
     def __str__(self):
         sit_anterior = self.anterior if self.anterior else 'Nada'
         return '[%s] %s - %s > %s' % (self.data, self.aluno, sit_anterior, self.situacao)
 
 class TempoAluno(LogAluno):
-    presenca = models.ForeignKey(Presenca, on_delete=models.CASCADE, verbose_name='presença')
-    nota = models.ForeignKey(Nota, on_delete=models.CASCADE)
-    financeira = models.ForeignKey(Financeira, on_delete=models.CASCADE)
-    matricula = models.ForeignKey(Matricula, on_delete=models.CASCADE, verbose_name='matrícula')
-    documentacao = models.ForeignKey(Documentacao, on_delete=models.CASCADE, verbose_name='documentação')
-    andamento = models.ForeignKey(Andamento, on_delete=models.CASCADE)
-    cadastral = models.ForeignKey(Cadastral, on_delete=models.CASCADE, verbose_name='situação')
+    presenca = models.ForeignKey(SitPresenca, on_delete=models.CASCADE, verbose_name='presença')
+    nota = models.ForeignKey(SitNota, on_delete=models.CASCADE)
+    financeira = models.ForeignKey(SitFinanceira, on_delete=models.CASCADE)
+    matricula = models.ForeignKey(SitMatricula, on_delete=models.CASCADE, verbose_name='matrícula')
+    documentacao = models.ForeignKey(SitDocumentacao, on_delete=models.CASCADE, verbose_name='documentação')
+    andamento = models.ForeignKey(SitAndamento, on_delete=models.CASCADE)
+    cadastral = models.ForeignKey(SitCadastral, on_delete=models.CASCADE, verbose_name='situação')
 
     def __str__(self):
         return '[%s] %s - %s' % (self.data, self.aluno, self.situacao)

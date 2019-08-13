@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Aluno, Presenca, Nota, Atividade, Financeira, Matricula, Documentacao, Andamento, Cadastral, Atendimento, Status
+from .models import Aluno, SitPresenca, SitNota, SitAtividade, SitFinanceira, SitMatricula, SitDocumentacao, SitAndamento, SitCadastral, Atendimento, Status
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 import acoes.admin as aa
@@ -36,7 +36,7 @@ class AlunoAdmin(ImportExportModelAdmin):
     ] 
     """
 
-@admin.register(Presenca, Nota, Atividade, Financeira, Matricula, Documentacao, Andamento, Cadastral)
+@admin.register(SitPresenca, SitNota, SitAtividade, SitFinanceira, SitMatricula, SitDocumentacao, SitAndamento, SitCadastral)
 class SituacaoAdmin(aa.SituacaoAdmin):
     pass
 

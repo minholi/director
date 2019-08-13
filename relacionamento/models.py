@@ -14,32 +14,36 @@ class Situacao(models.Model):
     class Meta:
         abstract = True
 
-class Presenca(Situacao):
+class SitPresenca(Situacao):
     class Meta:
         verbose_name = "presença"
 
-class Nota(Situacao):
-    pass
+class SitNota(Situacao):
+    class Meta:
+        verbose_name = 'nota'
 
-class Atividade(Situacao):
-    pass
+class SitAtividade(Situacao):
+    class Meta:
+        verbose_name = 'atividade'
 
-class Financeira(Situacao):
-    pass
+class SitFinanceira(Situacao):
+    class Meta:
+        verbose_name = 'finanaceira'
 
-class Matricula(Situacao):
+class SitMatricula(Situacao):
     class Meta:
         verbose_name = "matrícula"
 
-class Documentacao(Situacao):
+class SitDocumentacao(Situacao):
     class Meta:
         verbose_name = "documentação"
         verbose_name_plural = verbose_name
 
-class Andamento(Situacao):
-    pass
+class SitAndamento(Situacao):
+    class Meta:
+        verbose_name = "andamento"
 
-class Cadastral(Situacao):
+class SitCadastral(Situacao):
     class Meta:
         verbose_name_plural = "cadastrais"
 
@@ -61,13 +65,13 @@ class Aluno(models.Model):
     curriculo = models.CharField(max_length=40, verbose_name='currículo')
     serie = models.IntegerField(verbose_name='série')
     polo = models.CharField(max_length=255)
-    presenca = models.ForeignKey(Presenca, on_delete=models.PROTECT, verbose_name='presença')
-    nota = models.ForeignKey(Nota, on_delete=models.PROTECT)
-    financeira = models.ForeignKey(Financeira, on_delete=models.PROTECT)
-    matricula = models.ForeignKey(Matricula, on_delete=models.PROTECT, verbose_name='matrícula')
-    documentacao = models.ForeignKey(Documentacao, on_delete=models.PROTECT, verbose_name='documentação')
-    andamento = models.ForeignKey(Andamento, on_delete=models.PROTECT)
-    cadastral = models.ForeignKey(Cadastral, on_delete=models.PROTECT, verbose_name='situação')
+    presenca = models.ForeignKey(SitPresenca, on_delete=models.PROTECT, verbose_name='presença')
+    nota = models.ForeignKey(SitNota, on_delete=models.PROTECT)
+    financeira = models.ForeignKey(SitFinanceira, on_delete=models.PROTECT)
+    matricula = models.ForeignKey(SitMatricula, on_delete=models.PROTECT, verbose_name='matrícula')
+    documentacao = models.ForeignKey(SitDocumentacao, on_delete=models.PROTECT, verbose_name='documentação')
+    andamento = models.ForeignKey(SitAndamento, on_delete=models.PROTECT)
+    cadastral = models.ForeignKey(SitCadastral, on_delete=models.PROTECT, verbose_name='situação')
     obs = models.TextField(blank=True, null=True)
     status = models.ForeignKey(Status, on_delete=models.PROTECT, blank=True, null=True)
     criacao = models.DateTimeField(auto_now_add=True, verbose_name='criação')
@@ -99,11 +103,35 @@ class Disciplina(models.Model):
     nome = models.CharField(max_length=255)
     ano = models.DecimalField(decimal_places=0, max_digits=4)
     periodo = models.DecimalField(decimal_places=0, max_digits=2)
-    nota = models.DecimalField(decimal_places=1, max_digits=3)
+    serie = models.IntegerField(verbose_name='série')
+    media = models.DecimalField(decimal_places=1, max_digits=3, verbose_name='média')
+    media_min = models.DecimalField(decimal_places=1, max_digits=3, verbose_name='média min.')
+    media_max = models.DecimalField(decimal_places=1, max_digits=3, verbose_name='média máx.')
     situacao = models.CharField(max_length=20)
 
     class Meta:
         unique_together = ['disciplina', 'aluno']
+
+    def __str__(self):
+        return self.disciplina    
+
+
+class Atividade(models.Model):
+    disciplina = models.IntegerField()
+    aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
+    sigla = models.CharField(max_length=20)
+    nome = models.CharField(max_length=255)
+    ano = models.DecimalField(decimal_places=0, max_digits=4)
+    periodo = models.DecimalField(decimal_places=0, max_digits=2)
+    nota = models.DecimalField(decimal_places=1, max_digits=3)
+    nota_min = models.DecimalField(decimal_places=1, max_digits=3, verbose_name='nota min.')
+    nota_max = models.DecimalField(decimal_places=1, max_digits=3, verbose_name='nota máx.')
+
+    class Meta:
+        unique_together = ['disciplina', 'aluno', 'ano', 'periodo', 'sigla']
+
+    def __str__(self):
+        return '%s (%s)' % (self.disciplina, self.nota)
 
 
 

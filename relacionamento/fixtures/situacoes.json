@@ -1,6 +1,6 @@
 [
     {
-        "model": "relacionamento.presenca",
+        "model": "relacionamento.sitpresenca",
         "pk": 1,
         "fields": {
             "situacao": "Presente",
@@ -10,7 +10,7 @@
         }
     },
     {
-        "model": "relacionamento.presenca",
+        "model": "relacionamento.sitpresenca",
         "pk": 2,
         "fields": {
             "situacao": "Ausente",
@@ -20,7 +20,7 @@
         }
     },
     {
-        "model": "relacionamento.nota",
+        "model": "relacionamento.sitnota",
         "pk": 1,
         "fields": {
             "situacao": "\ud83e\udc45 M\u00e9dia",
@@ -30,7 +30,7 @@
         }
     },
     {
-        "model": "relacionamento.nota",
+        "model": "relacionamento.sitnota",
         "pk": 2,
         "fields": {
             "situacao": "\ud83e\udc47 M\u00e9dia",
@@ -40,7 +40,7 @@
         }
     },
     {
-        "model": "relacionamento.atividade",
+        "model": "relacionamento.sitatividade",
         "pk": 1,
         "fields": {
             "situacao": "Regular",
@@ -50,7 +50,7 @@
         }
     },
     {
-        "model": "relacionamento.atividade",
+        "model": "relacionamento.sitatividade",
         "pk": 2,
         "fields": {
             "situacao": "Pr\u00e9-evas\u00e3o",
@@ -60,7 +60,7 @@
         }
     },
     {
-        "model": "relacionamento.atividade",
+        "model": "relacionamento.sitatividade",
         "pk": 3,
         "fields": {
             "situacao": "Evas\u00e3o",
@@ -70,7 +70,7 @@
         }
     },
     {
-        "model": "relacionamento.atividade",
+        "model": "relacionamento.sitatividade",
         "pk": 4,
         "fields": {
             "situacao": "Ocioso",
@@ -80,7 +80,7 @@
         }
     },
     {
-        "model": "relacionamento.financeira",
+        "model": "relacionamento.sitfinanceira",
         "pk": 1,
         "fields": {
             "situacao": "Adimplente",
@@ -90,7 +90,7 @@
         }
     },
     {
-        "model": "relacionamento.financeira",
+        "model": "relacionamento.sitfinanceira",
         "pk": 2,
         "fields": {
             "situacao": "Inadimplente",
@@ -100,7 +100,7 @@
         }
     },
     {
-        "model": "relacionamento.matricula",
+        "model": "relacionamento.sitmatricula",
         "pk": 1,
         "fields": {
             "situacao": "Regular",
@@ -110,7 +110,7 @@
         }
     },
     {
-        "model": "relacionamento.matricula",
+        "model": "relacionamento.sitmatricula",
         "pk": 2,
         "fields": {
             "situacao": "Irregular",
@@ -120,7 +120,7 @@
         }
     },
     {
-        "model": "relacionamento.documentacao",
+        "model": "relacionamento.sitdocumentacao",
         "pk": 1,
         "fields": {
             "situacao": "Regular",
@@ -130,7 +130,7 @@
         }
     },
     {
-        "model": "relacionamento.documentacao",
+        "model": "relacionamento.sitdocumentacao",
         "pk": 2,
         "fields": {
             "situacao": "Irregular",
@@ -140,7 +140,7 @@
         }
     },
     {
-        "model": "relacionamento.andamento",
+        "model": "relacionamento.sitandamento",
         "pk": 1,
         "fields": {
             "situacao": "Ingressante",
@@ -150,7 +150,7 @@
         }
     },
     {
-        "model": "relacionamento.andamento",
+        "model": "relacionamento.sitandamento",
         "pk": 2,
         "fields": {
             "situacao": "Intermedi\u00e1rio",
@@ -160,7 +160,7 @@
         }
     },
     {
-        "model": "relacionamento.andamento",
+        "model": "relacionamento.sitandamento",
         "pk": 3,
         "fields": {
             "situacao": "Conclu\u00ednte",
@@ -170,7 +170,7 @@
         }
     },
     {
-        "model": "relacionamento.cadastral",
+        "model": "relacionamento.sitcadastral",
         "pk": 1,
         "fields": {
             "situacao": "Ativo",
@@ -180,7 +180,7 @@
         }
     },
     {
-        "model": "relacionamento.cadastral",
+        "model": "relacionamento.sitcadastral",
         "pk": 2,
         "fields": {
             "situacao": "Trancado",
@@ -190,7 +190,7 @@
         }
     },
     {
-        "model": "relacionamento.cadastral",
+        "model": "relacionamento.sitcadastral",
         "pk": 3,
         "fields": {
             "situacao": "Cancelado",
@@ -200,7 +200,7 @@
         }
     },
     {
-        "model": "relacionamento.cadastral",
+        "model": "relacionamento.sitcadastral",
         "pk": 4,
         "fields": {
             "situacao": "Conclu\u00eddo",
