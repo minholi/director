@@ -94,7 +94,7 @@ class Cobranca(models.Model):
     val_pago = models.DecimalField(decimal_places=2, max_digits=10, blank=True, null=True, verbose_name='val. pago')
 
     def __str__(self):
-        return self.cobranca
+        return '%s' % self.cobranca
 
 
 class Disciplina(models.Model):
@@ -113,25 +113,25 @@ class Disciplina(models.Model):
         unique_together = ['disciplina', 'aluno']
 
     def __str__(self):
-        return self.disciplina    
+        return '%s' % self.disciplina    
 
 
 class Atividade(models.Model):
-    disciplina = models.IntegerField()
+    disciplina = models.CharField(max_length=255)
     aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
     sigla = models.CharField(max_length=20)
     nome = models.CharField(max_length=255)
     ano = models.DecimalField(decimal_places=0, max_digits=4)
     periodo = models.DecimalField(decimal_places=0, max_digits=2)
+    data_entrega = models.DateTimeField(verbose_name='data da entrega')
     nota = models.DecimalField(decimal_places=1, max_digits=3)
-    nota_min = models.DecimalField(decimal_places=1, max_digits=3, verbose_name='nota min.')
     nota_max = models.DecimalField(decimal_places=1, max_digits=3, verbose_name='nota máx.')
 
     class Meta:
         unique_together = ['disciplina', 'aluno', 'ano', 'periodo', 'sigla']
 
     def __str__(self):
-        return '%s (%s)' % (self.disciplina, self.nota)
+        return '%s' % self.sigla
 
 
 

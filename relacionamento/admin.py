@@ -1,9 +1,10 @@
 from django.contrib import admin
-from .models import Aluno, SitPresenca, SitNota, SitAtividade, SitFinanceira, SitMatricula, SitDocumentacao, SitAndamento, SitCadastral, Atendimento, Status
+from .models import Aluno, SitPresenca, SitNota, SitAtividade, SitFinanceira, SitMatricula, SitDocumentacao, SitAndamento, SitCadastral, Atendimento, Status, Atividade, Disciplina
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 import acoes.admin as aa
 from suit import apps
+from director.utils import ReadOnlyInline
 
 
 class AlunoResource(resources.ModelResource):
@@ -17,6 +18,16 @@ class AtendimentoInline(admin.StackedInline):
     extra = 1
     can_delete = False
 
+class AtividadeInline(ReadOnlyInline, admin.TabularInline):
+    model = Atividade
+    fields = ('ano', 'periodo', 'disciplina', 'data_entrega', 'nota', 'nota_max')
+    suit_classes = 'suit-tab suit-tab-academico'
+
+class DisciplinaInline(ReadOnlyInline, admin.TabularInline):
+    model = Disciplina
+    fields = ('disciplina', 'nome', 'ano', 'periodo', 'media', 'situacao')
+    suit_classes = 'suit-tab suit-tab-academico'
+    ordering = ('-ano', '-periodo')
 
 @admin.register(Aluno)
 class AlunoAdmin(ImportExportModelAdmin):
@@ -25,7 +36,21 @@ class AlunoAdmin(ImportExportModelAdmin):
     list_filter = ('curso', 'polo', 'curriculo', 'serie', 'presenca', 'nota', 'financeira', 'matricula', 'documentacao', 'andamento', 'cadastral', 'status')
     search_fields = ('ra', 'nome', 'cpf')
     resource_class = AlunoResource
-    inlines = [AtendimentoInline,]
+    inlines = [AtividadeInline, DisciplinaInline, AtendimentoInline]
+
+    fieldsets = (
+        ('Ficha do aluno', {
+            'classes': ('suit-tab suit-tab-ficha',),
+            'fields': ('ra', 'nome', 'cpf', 'curso', 'curriculo', 'serie', 'polo', 'presenca', 'nota', 'financeira', 'matricula', 'documentacao', 'andamento', 'cadastral', 'obs', 'status')
+        }),
+    )
+
+    suit_form_tabs = (
+        ('ficha', 'Ficha'),
+        ('academico', 'Acadêmico'),
+        ('financeiro', 'Financeiro'),
+    )
+
     """     
     readonly_fields = ('ra', 'nome', 'cpf', 'curso', 'curriculo', 'serie', 'polo')
     fieldsets = [
@@ -45,3 +70,4 @@ class AtendimentoAdmin(admin.ModelAdmin):
     pass
 
 admin.site.register(Status)
+admin.site.register(Disciplina)
