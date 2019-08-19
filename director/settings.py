@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'taggit',
     'fsm_admin',
     'django_fsm_log',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -64,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_currentuser.middleware.ThreadLocalUserMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'director.urls'
@@ -157,4 +159,8 @@ CELERY_BEAT_SCHEDULE = {
 
 CONTROLCENTER_DASHBOARDS = (
     ('geral', 'director.dashboards.MainDashboard'),
+)
+
+INTERNAL_IPS = (
+    '127.0.0.1',
 )

@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from controlcenter.views import controlcenter
+from director import settings
 
 admin.site.site_header = 'Director'
 admin.site.site_title = 'Director'
@@ -26,3 +27,13 @@ urlpatterns = [
     path('dashboard/', controlcenter.urls),
     path('suporte/', include('suporte.urls'))
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+
+        # For django versions before 2.0:
+        # url(r'^__debug__/', include(debug_toolbar.urls)),
+
+    ] + urlpatterns

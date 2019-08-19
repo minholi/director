@@ -51,15 +51,26 @@ class AlunoAdmin(ImportExportModelAdmin):
         ('financeiro', 'Financeiro'),
     )
 
-    """     
-    readonly_fields = ('ra', 'nome', 'cpf', 'curso', 'curriculo', 'serie', 'polo')
-    fieldsets = [
-            (None, {
-                'classes': ('suit-tab suit-tab-general',),
-                'fields': [('nome', 'ra'), 'cpf', ('curso', 'curriculo', 'serie'), 'polo']
-            }),
-    ] 
-    """
+
+    # readonly_fields = ('ra', 'nome', 'cpf', 'curso', 'curriculo', 'serie', 'polo')
+    # fieldsets = [
+    #         (None, {
+    #             'classes': ('suit-tab suit-tab-general',),
+    #             'fields': [('nome', 'ra'), 'cpf', ('curso', 'curriculo', 'serie'), 'polo']
+    #         }),
+    # ] 
+
+
+    class Media:
+        js = (
+            'https://cdnjs.cloudflare.com/ajax/libs/jquery-footable/3.1.6/footable.min.js',
+            '/static/js/scripts.js',
+        )
+        css = (
+            'https://cdnjs.cloudflare.com/ajax/libs/jquery-footable/3.1.6/footable.bootstrap.css',
+        )
+
+
 
 @admin.register(SitPresenca, SitNota, SitAtividade, SitFinanceira, SitMatricula, SitDocumentacao, SitAndamento, SitCadastral)
 class SituacaoAdmin(aa.SituacaoAdmin):
