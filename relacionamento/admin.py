@@ -4,21 +4,30 @@ from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 import acoes.admin as aa
 from suit import apps
-from director.utils import ReadOnlyTabularInline
+from director.utils import ReadOnlyInline
+from django.forms import ModelForm, Select
+from suit.widgets import AutosizedTextarea
 
 
 class AlunoResource(resources.ModelResource):
     class Meta:
         model = Aluno
 
+class AtendimentoInlineForm(ModelForm):
+    class Meta:
+        widgets = {
+            'obs': AutosizedTextarea(attrs={'rows': 1}),
+            'acao': Select(attrs={'class': 'input-small'}),
+        }
 
 class AtendimentoInline(admin.StackedInline):
     model = Atendimento
     fields = ('obs', 'acao')
     extra = 1
     can_delete = False
+    form = AtendimentoInlineForm
 
-class AtividadeInline(ReadOnlyTabularInline, admin.TabularInline):
+class AtividadeInline(ReadOnlyInline, admin.TabularInline):
     model = Atividade
     fields = ('ano', 'periodo', 'disciplina', 'data_entrega', 'nota', 'nota_max')
     suit_classes = 'suit-tab suit-tab-academico'
@@ -32,11 +41,17 @@ class AtividadeInline(ReadOnlyTabularInline, admin.TabularInline):
             '/static/js/scripts.js',
         )
 
-class DisciplinaInline(ReadOnlyTabularInline, admin.TabularInline):
+class DisciplinaInline(ReadOnlyInline, admin.TabularInline):
     model = Disciplina
     fields = ('disciplina', 'nome', 'ano', 'periodo', 'media', 'situacao')
     suit_classes = 'suit-tab suit-tab-academico'
     ordering = ('-ano', '-periodo')
+
+class AlunoForm(ModelForm):
+    class Meta:
+        widgets = {
+            'obs': AutosizedTextarea(attrs={'rows': 2}),
+        }
 
 @admin.register(Aluno)
 class AlunoAdmin(ImportExportModelAdmin):
@@ -46,6 +61,7 @@ class AlunoAdmin(ImportExportModelAdmin):
     search_fields = ('ra', 'nome', 'cpf')
     resource_class = AlunoResource
     inlines = [AtividadeInline, DisciplinaInline, AtendimentoInline]
+    form = AlunoForm
 
     fieldsets = (
         ('Ficha do aluno', {
