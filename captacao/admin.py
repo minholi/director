@@ -9,7 +9,7 @@ import acoes.admin as aa
 class AtendimentoInlineForm(ModelForm):
     class Meta:
         widgets = {
-            'obs': AutosizedTextarea(attrs={'rows': 1}),
+            'obs': AutosizedTextarea(attrs={'rows': 2}),
             'acao': Select(attrs={'class': 'input-small'}),
         }
   

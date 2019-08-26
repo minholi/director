@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Aluno, SitPresenca, SitNota, SitAtividade, SitFinanceira, SitMatricula, SitDocumentacao, SitAndamento, SitCadastral, Atendimento, Status, Atividade, Disciplina
+from .models import Aluno, SitPresenca, SitNota, SitAtividade, SitFinanceira, SitMatricula, SitDocumentacao, SitAndamento, SitCadastral, Atendimento, Status, Atividade, Disciplina, Cobranca
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 import acoes.admin as aa
@@ -16,7 +16,7 @@ class AlunoResource(resources.ModelResource):
 class AtendimentoInlineForm(ModelForm):
     class Meta:
         widgets = {
-            'obs': AutosizedTextarea(attrs={'rows': 1}),
+            'obs': AutosizedTextarea(attrs={'rows': 2}),
             'acao': Select(attrs={'class': 'input-small'}),
         }
 
@@ -32,20 +32,17 @@ class AtividadeInline(ReadOnlyInline, admin.TabularInline):
     fields = ('ano', 'periodo', 'disciplina', 'data_entrega', 'nota', 'nota_max')
     suit_classes = 'suit-tab suit-tab-academico'
 
-    class Media:
-        css = {
-            "all": ("//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css",)
-        }
-        js = (
-            '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js',
-            '/static/js/scripts.js',
-        )
-
 class DisciplinaInline(ReadOnlyInline, admin.TabularInline):
     model = Disciplina
     fields = ('disciplina', 'nome', 'ano', 'periodo', 'media', 'situacao')
     suit_classes = 'suit-tab suit-tab-academico'
     ordering = ('-ano', '-periodo')
+
+class CobrancaInline(ReadOnlyInline, admin.TabularInline):
+    model = Cobranca
+    fields = ('cobranca', 'tipo', 'ano', 'mes', 'data_venc', 'data_pgto', 'val_pago', 'val_orig', 'val_final')
+    suit_classes = 'suit-tab suit-tab-financeiro'
+    ordering = ('-ano', '-mes')
 
 class AlunoForm(ModelForm):
     class Meta:
@@ -60,7 +57,7 @@ class AlunoAdmin(ImportExportModelAdmin):
     list_filter = ('curso', 'polo', 'curriculo', 'serie', 'presenca', 'nota', 'financeira', 'matricula', 'documentacao', 'andamento', 'cadastral', 'status')
     search_fields = ('ra', 'nome', 'cpf')
     resource_class = AlunoResource
-    inlines = [AtividadeInline, DisciplinaInline, AtendimentoInline]
+    inlines = [AtividadeInline, DisciplinaInline, CobrancaInline, AtendimentoInline]
     form = AlunoForm
 
     fieldsets = (
@@ -76,6 +73,14 @@ class AlunoAdmin(ImportExportModelAdmin):
         ('financeiro', 'Financeiro'),
     )
 
+    class Media:
+        css = {
+            "all": ("//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css",)
+        }
+        js = (
+            '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js',
+            '/static/js/alunoadmin.js',
+        )
 
     # readonly_fields = ('ra', 'nome', 'cpf', 'curso', 'curriculo', 'serie', 'polo')
     # fieldsets = [

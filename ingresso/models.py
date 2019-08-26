@@ -14,7 +14,7 @@ class Situacao(models.Model):
     class Meta:
         abstract = True
 
-class Cadastral(Situacao):
+class SitCadastral(Situacao):
     class Meta:
         verbose_name = "sit. cadastral"
         verbose_name_plural = "sit. cadastrais"
@@ -39,7 +39,7 @@ class Inscrito(models.Model):
     polo = models.CharField(max_length=255)
     ano = models.CharField(max_length=4)
     periodo = models.CharField(max_length=2)
-    cadastral = models.ForeignKey(Cadastral, on_delete=models.PROTECT, verbose_name='situação')
+    cadastral = models.ForeignKey(SitCadastral, on_delete=models.PROTECT, verbose_name='situação')
     obs = models.TextField(blank=True, null=True)
     status = models.ForeignKey(Status, on_delete=models.PROTECT, blank=True, null=True)
     criacao = models.DateTimeField(auto_now_add=True, verbose_name='criação')

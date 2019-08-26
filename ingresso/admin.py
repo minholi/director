@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Inscrito, Cadastral, Atendimento, Status
+from .models import Inscrito, SitCadastral, Atendimento, Status
 import acoes.admin as aa
 
 class AtendimentoInline(admin.StackedInline):
@@ -12,7 +12,7 @@ class AtendimentoInline(admin.StackedInline):
 class InscritoAdmin(admin.ModelAdmin):
     inlines = [AtendimentoInline,]
 
-@admin.register(Cadastral)
+@admin.register(SitCadastral)
 class SituacaoAdmin(aa.SituacaoAdmin):
     pass
 
