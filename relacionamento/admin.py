@@ -63,10 +63,10 @@ class AlunoAdmin(ImportExportModelAdmin):
 
     class Media:
         css = {
-            "all": ("https://cdnjs.cloudflare.com/ajax/libs/jquery-footable/3.1.6/footable.bootstrap.min.css",)
+            "all": ("//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css",)
         }
         js = (
-            'https://cdnjs.cloudflare.com/ajax/libs/jquery-footable/3.1.6/footable.min.js',
+            '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js',
             '/static/js/scripts.js',
         )
 
