@@ -4,7 +4,7 @@ from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 import acoes.admin as aa
 from suit import apps
-from director.utils import ReadOnlyInline
+from director.utils import ReadOnlyTabularInline
 
 
 class AlunoResource(resources.ModelResource):
@@ -18,12 +18,21 @@ class AtendimentoInline(admin.StackedInline):
     extra = 1
     can_delete = False
 
-class AtividadeInline(ReadOnlyInline, admin.TabularInline):
+class AtividadeInline(ReadOnlyTabularInline, admin.TabularInline):
     model = Atividade
     fields = ('ano', 'periodo', 'disciplina', 'data_entrega', 'nota', 'nota_max')
     suit_classes = 'suit-tab suit-tab-academico'
 
-class DisciplinaInline(ReadOnlyInline, admin.TabularInline):
+    class Media:
+        css = {
+            "all": ("//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css",)
+        }
+        js = (
+            '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js',
+            '/static/js/scripts.js',
+        )
+
+class DisciplinaInline(ReadOnlyTabularInline, admin.TabularInline):
     model = Disciplina
     fields = ('disciplina', 'nome', 'ano', 'periodo', 'media', 'situacao')
     suit_classes = 'suit-tab suit-tab-academico'
@@ -61,18 +70,6 @@ class AlunoAdmin(ImportExportModelAdmin):
     # ] 
 
 
-    class Media:
-        css = {
-            "all": ("//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css",)
-        }
-        js = (
-            '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js',
-            '/static/js/scripts.js',
-        )
-
-
-
-
 @admin.register(SitPresenca, SitNota, SitAtividade, SitFinanceira, SitMatricula, SitDocumentacao, SitAndamento, SitCadastral)
 class SituacaoAdmin(aa.SituacaoAdmin):
     pass
@@ -83,3 +80,4 @@ class AtendimentoAdmin(admin.ModelAdmin):
 
 admin.site.register(Status)
 admin.site.register(Disciplina)
+admin.site.register(Atividade)

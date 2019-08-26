@@ -1,8 +1,9 @@
-class ReadOnlyInline():
+class ReadOnlyTabularInline():
     """
     Classe base para as demais inlines da aplicação.
     Já que todas as inlines são somente para leitura dos dados, todas devem ter os mesmos métodos que indicam tal comportamento. 
     """
+    template = 'director/tabular-readonly.html'
     extra = 0
 
     def get_readonly_fields(self, request, obj=None):
