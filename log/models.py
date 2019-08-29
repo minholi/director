@@ -86,6 +86,30 @@ class TransAlunoMatricula(LogAluno):
         sit_anterior = self.anterior if self.anterior else 'Nada'
         return '[%s] %s - %s > %s' % (self.data, self.aluno, sit_anterior, self.situacao)
 
+class TransAlunoDocumentacao(LogAluno):
+    anterior = models.ForeignKey(rel.SitDocumentacao, on_delete=models.CASCADE, related_name='documentacao_anterior', blank=True, null=True)
+    situacao = models.ForeignKey(rel.SitDocumentacao, on_delete=models.CASCADE)
+
+    def __str__(self):
+        sit_anterior = self.anterior if self.anterior else 'Nada'
+        return '[%s] %s - %s > %s' % (self.data, self.aluno, sit_anterior, self.situacao)
+
+class TransAlunoAndamento(LogAluno):
+    anterior = models.ForeignKey(rel.SitAndamento, on_delete=models.CASCADE, related_name='andamento_anterior', blank=True, null=True)
+    situacao = models.ForeignKey(rel.SitAndamento, on_delete=models.CASCADE)
+
+    def __str__(self):
+        sit_anterior = self.anterior if self.anterior else 'Nada'
+        return '[%s] %s - %s > %s' % (self.data, self.aluno, sit_anterior, self.situacao)
+
+class TransAlunoCadastral(LogAluno):
+    anterior = models.ForeignKey(rel.SitCadastral, on_delete=models.CASCADE, related_name='cadastral_anterior', blank=True, null=True)
+    situacao = models.ForeignKey(rel.SitCadastral, on_delete=models.CASCADE)
+
+    def __str__(self):
+        sit_anterior = self.anterior if self.anterior else 'Nada'
+        return '[%s] %s - %s > %s' % (self.data, self.aluno, sit_anterior, self.situacao)
+
 class TempoAluno(LogAluno):
     presenca = models.ForeignKey(rel.SitPresenca, on_delete=models.CASCADE, verbose_name='presença')
     nota = models.ForeignKey(rel.SitNota, on_delete=models.CASCADE)
@@ -107,11 +131,17 @@ def log_trans_aluno(sender, instance, **kwargs):
         nota_anterior = anterior.nota
         financeira_anterior = anterior.financeira
         matricula_anterior = anterior.matricula
+        documentacao_anterior = anterior.documentacao
+        andamento_anterior = anterior.andamento
+        cadastral_anterior = anterior.cadastral
     except rel.Aluno.DoesNotExist:
         presenca_anterior = None
         nota_anterior = None
         financeira_anterior = None
         matricula_anterior = None
+        documentacao_anterior = None
+        andamento_anterior = None
+        cadastral_anterior = None
 
     if instance.presenca != presenca_anterior:
         print('%s: %s > %s' % (instance, presenca_anterior, instance.presenca)) 
@@ -132,4 +162,19 @@ def log_trans_aluno(sender, instance, **kwargs):
     if instance.matricula != matricula_anterior:
         print('%s: %s > %s' % (instance, matricula_anterior, instance.matricula)) 
         log = TransAlunoMatricula(aluno=instance, data=now.date(), hora=now.time(), anterior=matricula_anterior, situacao=instance.matricula)
+        log.save()
+
+    if instance.documentacao != documentacao_anterior:
+        print('%s: %s > %s' % (instance, documentacao_anterior, instance.documentacao)) 
+        log = TransAlunoDocumentacao(aluno=instance, data=now.date(), hora=now.time(), anterior=documentacao_anterior, situacao=instance.documentacao)
+        log.save()
+
+    if instance.andamento != andamento_anterior:
+        print('%s: %s > %s' % (instance, andamento_anterior, instance.andamento)) 
+        log = TransAlunoAndamento(aluno=instance, data=now.date(), hora=now.time(), anterior=andamento_anterior, situacao=instance.andamento)
+        log.save()
+
+    if instance.cadastral != cadastral_anterior:
+        print('%s: %s > %s' % (instance, cadastral_anterior, instance.cadastral)) 
+        log = TransAlunoCadastral(aluno=instance, data=now.date(), hora=now.time(), anterior=cadastral_anterior, situacao=instance.cadastral)
         log.save()
