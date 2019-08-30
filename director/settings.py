@@ -150,6 +150,14 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'America/Sao_Paulo'
 CELERY_BEAT_SCHEDULE = {
+    'log_contato_temporal': {
+        'task': 'log.tasks.contato_temporal',
+        'schedule': crontab(),
+    },
+    'log_inscrito_temporal': {
+        'task': 'log.tasks.inscrito_temporal',
+        'schedule': crontab(),
+    },
     'log_aluno_temporal': {
         'task': 'log.tasks.aluno_temporal',
         'schedule': crontab(),

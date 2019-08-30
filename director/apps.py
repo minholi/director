@@ -10,14 +10,14 @@ class SuitConfig(DjangoSuitConfig):
             ChildItem(model='captacao.atendimento'),
             ChildItem('Atend. Agendados', model='captacao.atendimentoagendado'),
             ChildItem(model='captacao.conversao'),
-            ChildItem(model='captacao.cadastral'),
+            ChildItem(model='captacao.sitcadastral'),
             ChildItem(model='captacao.origem'),
             ChildItem(model='captacao.status'),
         ],),
         ParentItem('Ingresso', children=[
             ChildItem(model='ingresso.inscrito'),
             ChildItem(model='ingresso.atendimento'),
-            ChildItem(model='ingresso.cadastral'),
+            ChildItem(model='ingresso.sitcadastral'),
             ChildItem(model='ingresso.status'),
         ],),
         ParentItem('Relacionamento', children=[

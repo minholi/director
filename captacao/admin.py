@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Contato, Cadastral, Origem, Status, Atendimento, Conversao, AtendimentoAgendado
+from .models import Contato, SitCadastral, Origem, Status, Atendimento, Conversao, AtendimentoAgendado
 from django.db.models import OuterRef, Subquery
 from django.forms import ModelForm, Select
 from suit.widgets import AutosizedTextarea
@@ -75,7 +75,7 @@ class ContatoAdmin(admin.ModelAdmin):
         list_display = ('id', 'nome', 'descricao')
 
 
-    @admin.register(Cadastral)
+    @admin.register(SitCadastral)
     class SituacaoAdmin(aa.SituacaoAdmin):
         pass
 

@@ -1,9 +1,50 @@
 from django.db import models
 import relacionamento.models as rel
 import ingresso.models as ing
+import captacao.models as cap
 from django.db.models import signals
 from django.dispatch import receiver
 from django.utils import timezone
+
+
+class LogContato(models.Model):
+    contato = models.ForeignKey(cap.Contato, on_delete=models.CASCADE)
+    data = models.DateField(db_index=True)
+    hora = models.TimeField()
+
+    class Meta:
+        abstract = True
+        unique_together = ['contato', 'data', 'hora']
+
+class TransContatoCadastral(LogContato):
+    anterior = models.ForeignKey(cap.SitCadastral, on_delete=models.CASCADE, related_name='cadastral_anterior', blank=True, null=True)
+    situacao = models.ForeignKey(cap.SitCadastral, on_delete=models.CASCADE)
+
+    def __str__(self):
+        sit_anterior = self.anterior if self.anterior else 'Nada'
+        return '[%s] %s - %s > %s' % (self.data, self.contato, sit_anterior, self.situacao)
+
+
+class TempoContato(LogContato):
+    cadastral = models.ForeignKey(rel.SitCadastral, on_delete=models.CASCADE, verbose_name='situação')
+
+    def __str__(self):
+        return '[%s] %s - %s' % (self.data, self.contato, self.situacao)
+
+@receiver(signals.pre_save, sender=cap.Contato)
+def log_trans_contato(sender, instance, **kwargs):
+    now = timezone.now()
+    try:
+        anterior = cap.Contato.objects.get(pk=instance)
+        cadastral_anterior = anterior.cadastral
+    except cap.Contato.DoesNotExist:
+        cadastral_anterior = None
+
+    if instance.cadastral != cadastral_anterior:
+        print('%s: %s > %s' % (instance, cadastral_anterior, instance.cadastral)) 
+        log = TransContatoCadastral(contato=instance, data=now.date(), hora=now.time(), anterior=cadastral_anterior, situacao=instance.cadastral)
+        log.save()
+
 
 
 class LogInscrito(models.Model):
