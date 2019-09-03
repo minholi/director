@@ -1,5 +1,11 @@
 {% extends 'admin/base.html' %}
 
+{% load static %}
+
+{% block extrahead %}
+    <link rel="shortcut icon" href="{% static 'favicon.svg' %}" />
+{% endblock %}
+
 {% block footer_links %}
 <a href="https://minholi.com/" target="_blank">Suporte</a>
 <a href="https://minholi.com/" target="_blank">Licença</a>

@@ -1,1 +1,78 @@
-[{"model": "captacao.cadastral", "pk": 1, "fields": {"situacao": "Aberto", "descricao": "Aguardando atendimento ou ainda n\u00e3o inscrito", "conversivel": true, "conversao": 2}}, {"model": "captacao.cadastral", "pk": 2, "fields": {"situacao": "Inscrito", "descricao": "Inscrito em um processo de ingresso ativo", "conversivel": false, "conversao": null}}, {"model": "captacao.cadastral", "pk": 3, "fields": {"situacao": "Prospecto", "descricao": "Contato aguardando que alguma condi\u00e7\u00e3o seja satisfeita para realizar inscri\u00e7\u00e3o", "conversivel": true, "conversao": 2}}, {"model": "captacao.cadastral", "pk": 4, "fields": {"situacao": "Matriculado", "descricao": "Contato matriculado em algum curso", "conversivel": true, "conversao": 2}}, {"model": "captacao.cadastral", "pk": 5, "fields": {"situacao": "Evadido", "descricao": "Contato em situa\u00e7\u00e3o de evas\u00e3o em algum curso", "conversivel": true, "conversao": 2}}, {"model": "captacao.cadastral", "pk": 6, "fields": {"situacao": "Egresso", "descricao": "Contato que concluiu algum curso e n\u00e3o realizou nova inscri\u00e7\u00e3o ou matr\u00edcula", "conversivel": true, "conversao": 2}}, {"model": "captacao.status", "pk": 1, "fields": {"nome": "Polo pr\u00f3ximo", "descricao": ""}}, {"model": "captacao.status", "pk": 2, "fields": {"nome": "Outro curso", "descricao": ""}}]
+[
+    {
+        "model": "captacao.sitcadastral",
+        "pk": 1,
+        "fields": {
+            "situacao": "Aberto",
+            "descricao": "Aguardando atendimento ou ainda n\u00e3o inscrito",
+            "conversivel": true,
+            "conversao": 2
+        }
+    },
+    {
+        "model": "captacao.sitcadastral",
+        "pk": 2,
+        "fields": {
+            "situacao": "Inscrito",
+            "descricao": "Inscrito em um processo de ingresso ativo",
+            "conversivel": false,
+            "conversao": null
+        }
+    },
+    {
+        "model": "captacao.sitcadastral",
+        "pk": 3,
+        "fields": {
+            "situacao": "Prospecto",
+            "descricao": "Contato aguardando que alguma condi\u00e7\u00e3o seja satisfeita para realizar inscri\u00e7\u00e3o",
+            "conversivel": true,
+            "conversao": 2
+        }
+    },
+    {
+        "model": "captacao.sitcadastral",
+        "pk": 4,
+        "fields": {
+            "situacao": "Matriculado",
+            "descricao": "Contato matriculado em algum curso",
+            "conversivel": true,
+            "conversao": 2
+        }
+    },
+    {
+        "model": "captacao.sitcadastral",
+        "pk": 5,
+        "fields": {
+            "situacao": "Evadido",
+            "descricao": "Contato em situa\u00e7\u00e3o de evas\u00e3o em algum curso",
+            "conversivel": true,
+            "conversao": 2
+        }
+    },
+    {
+        "model": "captacao.sitcadastral",
+        "pk": 6,
+        "fields": {
+            "situacao": "Egresso",
+            "descricao": "Contato que concluiu algum curso e n\u00e3o realizou nova inscri\u00e7\u00e3o ou matr\u00edcula",
+            "conversivel": true,
+            "conversao": 2
+        }
+    },
+    {
+        "model": "captacao.status",
+        "pk": 1,
+        "fields": {
+            "nome": "Polo pr\u00f3ximo",
+            "descricao": ""
+        }
+    },
+    {
+        "model": "captacao.status",
+        "pk": 2,
+        "fields": {
+            "nome": "Outro curso",
+            "descricao": ""
+        }
+    }
+]
