@@ -45,6 +45,7 @@ class Origem(models.Model):
         verbose_name_plural = 'origens'
 
 class Contato(models.Model):
+    codigo = models.CharField(max_length=20, verbose_name='código', primary_key=True)
     nome = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
     telefone = models.CharField(max_length=15, blank=True, null=True)
