@@ -27,9 +27,10 @@ class Chamado(models.Model):
     assunto = models.CharField(max_length=255)
     informacoes = models.TextField(verbose_name='informações')
     solicitante = models.ForeignKey(Usuario, on_delete=models.PROTECT, related_name='solicitantes')
-    responsavel = models.ForeignKey(Usuario, null=True, blank=True, on_delete=models.PROTECT, related_name='responsaveis')
-    data_atendimento = models.DateTimeField(null=True, blank=True, verbose_name=u'Data do atendimento')
-    data_fechamento = models.DateTimeField(null=True, blank=True, verbose_name=u'Data do fechamento')
+    responsavel = models.ForeignKey(Usuario, null=True, blank=True, on_delete=models.PROTECT, related_name='responsaveis', verbose_name=u'responsável')
+    data_abertura = models.DateTimeField(verbose_name=u'Data de abertura', auto_now_add=True)
+    data_atendimento = models.DateTimeField(null=True, blank=True, verbose_name=u'Data de atendimento')
+    data_fechamento = models.DateTimeField(null=True, blank=True, verbose_name=u'Data de fechamento')
     status = FSMField(default = 'aberto', choices = CHAMADO_CHOICES)
 
     def __str__(self):

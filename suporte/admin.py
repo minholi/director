@@ -6,6 +6,7 @@ from fsm_admin.mixins import FSMTransitionMixin
 
 @admin.register(Chamado)
 class ChamadoAdmin(FSMTransitionMixin, admin.ModelAdmin):
+    list_display = ('assunto', 'setor', 'categoria', 'solicitante', 'responsavel', 'data_abertura', 'data_atendimento', 'data_fechamento', 'status')
     form = ChamadoForm
     fsm_field = ['status',]
 

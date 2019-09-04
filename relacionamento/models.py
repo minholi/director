@@ -148,7 +148,7 @@ class Acao(ma.Acao):
 
 class Atendimento(ma.Atendimento):
     aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
-    acao = models.ForeignKey(Acao, on_delete=models.CASCADE)
+    acao = models.ForeignKey(Acao, on_delete=models.CASCADE, verbose_name='ação')
 
     def __str__(self):
         return '%s - %s - %s' % (self.aluno, self.acao, self.data)
