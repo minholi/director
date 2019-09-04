@@ -27,9 +27,9 @@ class Chamado(models.Model):
     categoria = models.ForeignKey(Categoria, on_delete=models.PROTECT)
     assunto = models.CharField(max_length=255)
     informacoes = models.TextField(verbose_name='informações')
+    relacionado = models.ForeignKey("self", null=True, blank=True, on_delete=models.PROTECT, help_text='Informe o chamado caso exista relação com outro já informado ou se trate de um chamado duplicado')
     solicitante = models.ForeignKey(Usuario, on_delete=models.PROTECT, related_name='solicitantes')
     responsavel = models.ForeignKey(Usuario, null=True, blank=True, on_delete=models.PROTECT, related_name='responsaveis', verbose_name=u'responsável')
-    relacionado = models.ForeignKey("self", null=True, blank=True, on_delete=models.PROTECT, help_text='Informe o chamado caso exista relação com outro já informado ou se trate de um chamado duplicado')
     data_abertura = models.DateTimeField(verbose_name=u'Data de abertura', null=True, blank=True)
     data_atendimento = models.DateTimeField(null=True, blank=True, verbose_name=u'Data de atendimento')
     data_fechamento = models.DateTimeField(null=True, blank=True, verbose_name=u'Data de fechamento')
@@ -96,3 +96,13 @@ class Chamado(models.Model):
         description = 'Fechado por %s' % by
         self.responsavel = by
         self.data_fechamento = timezone.now()
+
+
+class Anexo(models.Model):
+    descricao = models.CharField(max_length=255, verbose_name='Descrição')
+    arquivo = models.FileField(upload_to='suporte')
+    usuario = models.ForeignKey(Usuario, on_delete=models.PROTECT)
+    chamado = models.ForeignKey(Chamado, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return self.descricao
