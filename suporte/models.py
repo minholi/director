@@ -6,6 +6,7 @@ from django_fsm_log.decorators import fsm_log_by, fsm_log_description
 from django.utils import timezone
 
 CHAMADO_CHOICES = (
+    ('rascunho', 'Rascunho'),
     ('aberto', 'Aberto'),
     ('duplicado', 'Duplicado'),
     ('atendendo', 'Atendendo'),
@@ -28,10 +29,11 @@ class Chamado(models.Model):
     informacoes = models.TextField(verbose_name='informações')
     solicitante = models.ForeignKey(Usuario, on_delete=models.PROTECT, related_name='solicitantes')
     responsavel = models.ForeignKey(Usuario, null=True, blank=True, on_delete=models.PROTECT, related_name='responsaveis', verbose_name=u'responsável')
-    data_abertura = models.DateTimeField(verbose_name=u'Data de abertura', auto_now_add=True)
+    relacionado = models.ForeignKey("self", null=True, blank=True, on_delete=models.PROTECT, help_text='Informe o chamado caso exista relação com outro já informado ou se trate de um chamado duplicado')
+    data_abertura = models.DateTimeField(verbose_name=u'Data de abertura', null=True, blank=True)
     data_atendimento = models.DateTimeField(null=True, blank=True, verbose_name=u'Data de atendimento')
     data_fechamento = models.DateTimeField(null=True, blank=True, verbose_name=u'Data de fechamento')
-    status = FSMField(default = 'aberto', choices = CHAMADO_CHOICES)
+    status = FSMField(default = 'rascunho', choices = CHAMADO_CHOICES)
 
     def __str__(self):
         return self.assunto
@@ -40,6 +42,22 @@ class Chamado(models.Model):
         permissions = (
             ("can_atender", "Pode atender chamados"),
         )
+
+    @fsm_log_by
+    @fsm_log_description
+    @transition(field=status, source='rascunho', target='aberto', custom={'button_name':'Abrir chamado'})
+    def abrir(self, description=None, by=None):
+        description = 'Aberto por %s' % by
+        self.solicitante = by
+        self.data_abertura = timezone.now()
+
+    @fsm_log_by
+    @fsm_log_description
+    @transition(field=status, source='aberto', target='rascunho', custom={'button_name':'Alterar chamado'})
+    def editar(self, description=None, by=None):
+        description = 'Alterado por %s' % by
+        self.solicitante = by
+        self.data_abertura = None
 
     @fsm_log_by
     @fsm_log_description
@@ -69,6 +87,7 @@ class Chamado(models.Model):
     def reabrir(self, description=None, by=None):
         description = 'Reaberto por %s' % by
         self.responsavel = by
+        self.data_atendimento = None
 
     @fsm_log_by
     @fsm_log_description

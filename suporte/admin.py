@@ -9,6 +9,9 @@ class ChamadoAdmin(FSMTransitionMixin, admin.ModelAdmin):
     list_display = ('assunto', 'setor', 'categoria', 'solicitante', 'responsavel', 'data_abertura', 'data_atendimento', 'data_fechamento', 'status')
     form = ChamadoForm
     fsm_field = ['status',]
+    autocomplete_fields = ('relacionado',)
+    search_fields = ('assunto', 'relacionado')
+    list_filter = ('setor', 'categoria', 'solicitante', 'status')
 
     def save_model(self, request, obj, form, change):
         if not obj.pk:
