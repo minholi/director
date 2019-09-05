@@ -100,7 +100,7 @@ class Chamado(models.Model):
 
 class Anexo(models.Model):
     descricao = models.CharField(max_length=255, verbose_name='Descrição')
-    arquivo = models.FileField(upload_to='suporte')
+    arquivo = models.FileField(upload_to='static/suporte')
     usuario = models.ForeignKey(Usuario, on_delete=models.PROTECT)
     chamado = models.ForeignKey(Chamado, on_delete=models.PROTECT)
 
