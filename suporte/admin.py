@@ -57,7 +57,7 @@ class ChamadoAdmin(FSMTransitionMixin, admin.ModelAdmin):
         for obj in formset.deleted_objects:
             obj.delete()
         for instance in instances:
-            if isinstance(instance, Anexo):
+            if isinstance(instance, (Anexo, Comentario)):
                 instance.usuario = request.user
 
             instance.save()

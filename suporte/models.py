@@ -91,7 +91,7 @@ class Chamado(models.Model):
 
     @fsm_log_by
     @fsm_log_description
-    @transition(field=status, source='aberto', target='fechado', custom={'button_name':'Fechar chamado'}) # TODO: Tratar permissão para fechar
+    @transition(field=status, source=['aberto', 'atendendo', 'em_espera'], target='fechado', custom={'button_name':'Fechar chamado'}) # TODO: Tratar permissão para fechar
     def fechar(self, description=None, by=None):
         description = 'Fechado por %s' % by
         self.responsavel = by
