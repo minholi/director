@@ -100,9 +100,21 @@ class Chamado(models.Model):
 
 class Anexo(models.Model):
     descricao = models.CharField(max_length=255, verbose_name='Descrição')
-    arquivo = models.FileField(upload_to='static/suporte')
+    arquivo = models.FileField(upload_to='suporte')
     usuario = models.ForeignKey(Usuario, on_delete=models.PROTECT)
     chamado = models.ForeignKey(Chamado, on_delete=models.PROTECT)
 
     def __str__(self):
         return self.descricao
+
+class Comentario(models.Model):
+    comentario = models.TextField(verbose_name=u'Comentário')
+    usuario = models.ForeignKey(Usuario, on_delete=models.PROTECT)
+    chamado = models.ForeignKey(Chamado, on_delete=models.PROTECT)
+    data = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'comentário'
+
+    def __str__(self):
+        return u'%s em %s' % (self.usuario, self.data)

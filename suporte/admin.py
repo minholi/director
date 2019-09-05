@@ -1,8 +1,14 @@
 from django.contrib import admin
-from .models import Chamado, Categoria, Anexo
+from .models import Chamado, Categoria, Anexo, Comentario
 from django.forms import ModelForm
 from .forms import ChamadoForm
 from fsm_admin.mixins import FSMTransitionMixin
+
+class ComentarioInline(admin.StackedInline):
+    model = Comentario
+    suit_classes = 'suit-tab suit-tab-comentarios'
+    readonly_fields = ['usuario', 'data']
+    extra = 1
 
 class AnexoInline(admin.TabularInline):
     model = Anexo
@@ -14,7 +20,7 @@ class AnexoInline(admin.TabularInline):
 class ChamadoAdmin(FSMTransitionMixin, admin.ModelAdmin):
     list_display = ('assunto', 'setor', 'categoria', 'solicitante', 'responsavel', 'data_abertura', 'data_atendimento', 'data_fechamento', 'status')
     form = ChamadoForm
-    inlines = [AnexoInline,]
+    inlines = [AnexoInline, ComentarioInline]
     fsm_field = ['status',]
     autocomplete_fields = ('relacionado',)
     search_fields = ('assunto', 'relacionado')
@@ -23,7 +29,8 @@ class ChamadoAdmin(FSMTransitionMixin, admin.ModelAdmin):
 
     suit_form_tabs = (
         ('detalhes', 'Detalhes'),
-        ('anexos', 'Anexos')
+        ('anexos', 'Anexos'),
+        ('comentarios', 'Comentários')
     )
 
     fieldsets = (
@@ -41,12 +48,9 @@ class ChamadoAdmin(FSMTransitionMixin, admin.ModelAdmin):
         return readonly_fields
 
     def has_delete_permission(self, request, obj=None):
-        try:
-            if obj.status != 'rascunho':
+        if obj and obj.status != 'rascunho':
                 return False
-            return super(ChamadoAdmin, self).has_delete_permission(request, obj)
-        except AttributeError:
-            pass
+        return super(ChamadoAdmin, self).has_delete_permission(request, obj)
 
     def save_formset(self, request, form, formset, change):
         instances = formset.save(commit=False)

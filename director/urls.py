@@ -32,8 +32,13 @@ if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
         path('__debug__/', include(debug_toolbar.urls)),
-
         # For django versions before 2.0:
         # url(r'^__debug__/', include(debug_toolbar.urls)),
 
     ] + urlpatterns
+
+# Static files during development
+# https://docs.djangoproject.com/en/2.2/howto/static-files/#serving-files-uploaded-by-a-user-during-development
+if settings.DEBUG:
+    from django.conf.urls.static import static
+    urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -145,6 +145,10 @@ STATICFILES_DIRS = [
 # Custom Auth User Model
 AUTH_USER_MODEL = 'estrutura.Usuario'
 
+# Media and upload store
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = '/media/'
+
 # Celery settings
 from celery.schedules import crontab
 
