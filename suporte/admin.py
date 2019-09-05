@@ -50,17 +50,19 @@ class ChamadoAdmin(FSMTransitionMixin, admin.ModelAdmin):
 
     def save_formset(self, request, form, formset, change):
         instances = formset.save(commit=False)
-
+        for obj in formset.deleted_objects:
+            obj.delete()
         for instance in instances:
             if isinstance(instance, Anexo):
-                if not instance.usuario_id:
-                    instance.usuario = request.user
-           
-                instance.save()
+                instance.usuario = request.user
+
+            instance.save()
+        formset.save_m2m()
     
     def save_model(self, request, obj, form, change):
         if not obj.pk:
             obj.solicitante = request.user
+
         super().save_model(request, obj, form, change)
 
 admin.site.register(Categoria)
