@@ -75,13 +75,13 @@ class ChamadoAdmin(FSMTransitionMixin, admin.ModelAdmin):
 
             if isinstance(inline, AnexoInline):
                 for form in inline_admin_formset.forms:
-                    if form.instance.usuario_id not in (request.user.id, None):
+                    if form.instance.usuario_id not in (request.user.id, None) or obj.status == 'fechado':
                         form.fields['descricao'].widget.attrs['readonly'] = True
                         form.fields['arquivo'].widget.attrs['readonly'] = True
 
             if isinstance(inline, ComentarioInline):
                 for form in inline_admin_formset.forms:
-                    if form.instance.usuario_id not in (request.user.id, None):
+                    if form.instance.usuario_id not in (request.user.id, None) or obj.status == 'fechado':
                         form.fields['comentario'].widget.attrs['readonly'] = True
 
             inline_admin_formsets.append(inline_admin_formset)
