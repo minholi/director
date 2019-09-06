@@ -10,11 +10,21 @@ class ComentarioInline(admin.StackedInline):
     readonly_fields = ['usuario', 'data']
     extra = 1
 
+    def has_delete_permission(self, request, obj=None):
+        if obj and obj.status != 'rascunho':
+                return False
+        return super(ComentarioInline, self).has_delete_permission(request, obj)
+
 class AnexoInline(admin.TabularInline):
     model = Anexo
     suit_classes = 'suit-tab suit-tab-anexos'
     readonly_fields = ['usuario',]
     extra = 1
+
+    def has_delete_permission(self, request, obj=None):
+        if obj and obj.status != 'rascunho':
+                return False
+        return super(AnexoInline, self).has_delete_permission(request, obj)
 
 @admin.register(Chamado)
 class ChamadoAdmin(FSMTransitionMixin, admin.ModelAdmin):
@@ -51,6 +61,31 @@ class ChamadoAdmin(FSMTransitionMixin, admin.ModelAdmin):
         if obj and obj.status != 'rascunho':
                 return False
         return super(ChamadoAdmin, self).has_delete_permission(request, obj)
+
+    def get_inline_formsets(self, request, formsets, inline_instances, obj=None):
+        inline_admin_formsets = []
+        for inline, formset in zip(inline_instances, formsets):
+            fieldsets = list(inline.get_fieldsets(request, obj))
+            readonly = list(inline.get_readonly_fields(request, obj))
+            prepopulated = dict(inline.get_prepopulated_fields(request, obj))
+            inline_admin_formset = admin.helpers.InlineAdminFormSet(
+                inline, formset, fieldsets, prepopulated, readonly,
+                model_admin=self,
+            )
+
+            if isinstance(inline, AnexoInline):
+                for form in inline_admin_formset.forms:
+                    if form.instance.usuario_id not in (request.user.id, None):
+                        form.fields['descricao'].widget.attrs['readonly'] = True
+                        form.fields['arquivo'].widget.attrs['readonly'] = True
+
+            if isinstance(inline, ComentarioInline):
+                for form in inline_admin_formset.forms:
+                    if form.instance.usuario_id not in (request.user.id, None):
+                        form.fields['comentario'].widget.attrs['readonly'] = True
+
+            inline_admin_formsets.append(inline_admin_formset)
+        return inline_admin_formsets
 
     def save_formset(self, request, form, formset, change):
         instances = formset.save(commit=False)

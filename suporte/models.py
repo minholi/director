@@ -73,6 +73,7 @@ class Chamado(models.Model):
     def marcar_duplicado(self, description=None, by=None):
         description = 'Marcado como duplicado por %s' % by
         self.responsavel = by
+        self.data_fechamento = timezone.now()
 
     @fsm_log_by
     @fsm_log_description
@@ -88,6 +89,7 @@ class Chamado(models.Model):
         description = 'Reaberto por %s' % by
         self.responsavel = by
         self.data_atendimento = None
+        self.data_fechamento = None
 
     @fsm_log_by
     @fsm_log_description
