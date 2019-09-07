@@ -3,15 +3,28 @@ from .models import Chamado, Categoria, Anexo, Comentario
 from django.forms import ModelForm
 from .forms import ChamadoForm
 from fsm_admin.mixins import FSMTransitionMixin
+from suit.widgets import AutosizedTextarea
+
+class ComentarioInlineForm(ModelForm):
+    class Meta:
+        widgets = {
+            'mensagem': AutosizedTextarea(attrs={'rows': 2}),
+        }
 
 class ComentarioInline(admin.StackedInline):
     model = Comentario
     suit_classes = 'suit-tab suit-tab-comentarios'
-    readonly_fields = ['usuario', 'data']
+    fields = ['mensagem',]
     extra = 1
+    form = ComentarioInlineForm
 
     def has_delete_permission(self, request, obj=None):
         if obj and obj.status != 'rascunho':
+                return False
+        return super(ComentarioInline, self).has_delete_permission(request, obj)
+
+    def has_add_permission(self, request, obj=None):
+        if obj and obj.status == 'fechado':
                 return False
         return super(ComentarioInline, self).has_delete_permission(request, obj)
 
@@ -23,6 +36,11 @@ class AnexoInline(admin.TabularInline):
 
     def has_delete_permission(self, request, obj=None):
         if obj and obj.status != 'rascunho':
+                return False
+        return super(AnexoInline, self).has_delete_permission(request, obj)
+
+    def has_add_permission(self, request, obj=None):
+        if obj and obj.status == 'fechado':
                 return False
         return super(AnexoInline, self).has_delete_permission(request, obj)
 
@@ -82,7 +100,7 @@ class ChamadoAdmin(FSMTransitionMixin, admin.ModelAdmin):
             if isinstance(inline, ComentarioInline):
                 for form in inline_admin_formset.forms:
                     if form.instance.usuario_id not in (request.user.id, None) or obj.status == 'fechado':
-                        form.fields['comentario'].widget.attrs['readonly'] = True
+                        form.fields['mensagem'].widget.attrs['readonly'] = True
 
             inline_admin_formsets.append(inline_admin_formset)
         return inline_admin_formsets

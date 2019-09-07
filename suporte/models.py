@@ -110,7 +110,7 @@ class Anexo(models.Model):
         return self.descricao
 
 class Comentario(models.Model):
-    comentario = models.TextField(verbose_name=u'Comentário')
+    mensagem = models.TextField()
     usuario = models.ForeignKey(Usuario, on_delete=models.PROTECT)
     chamado = models.ForeignKey(Chamado, on_delete=models.PROTECT)
     data = models.DateTimeField(auto_now_add=True)
@@ -119,4 +119,4 @@ class Comentario(models.Model):
         verbose_name = 'comentário'
 
     def __str__(self):
-        return u'%s em %s' % (self.usuario, self.data)
+        return u'%s em %s' % (self.usuario, self.data.strftime("%d/%m/%Y às %H:%M:%S"))
