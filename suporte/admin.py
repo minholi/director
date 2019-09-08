@@ -4,6 +4,7 @@ from django.forms import ModelForm
 from .forms import ChamadoForm
 from fsm_admin.mixins import FSMTransitionMixin
 from suit.widgets import AutosizedTextarea
+from django.db.models import Q
 
 class ComentarioInlineForm(ModelForm):
     class Meta:
@@ -68,9 +69,16 @@ class ChamadoAdmin(FSMTransitionMixin, admin.ModelAdmin):
         }),
     )
 
+    def get_queryset(self, request):
+        qs = super(ChamadoAdmin, self).get_queryset(request)
+        if not request.user.is_superuser:
+            qs = qs.filter(Q(solicitante__setor=request.user.setor) | Q(setor=request.user.setor))
+
+        return qs
+
     def get_readonly_fields(self, request, obj=None):
         readonly_fields = self.readonly_fields
-        if not obj.status == 'rascunho':
+        if obj and obj.status != 'rascunho':
             readonly_fields = readonly_fields + ['setor', 'categoria', 'assunto', 'informacoes', 'relacionado']
 
         return readonly_fields
@@ -91,16 +99,17 @@ class ChamadoAdmin(FSMTransitionMixin, admin.ModelAdmin):
                 model_admin=self,
             )
 
-            if isinstance(inline, AnexoInline):
-                for form in inline_admin_formset.forms:
-                    if form.instance.usuario_id not in (request.user.id, None) or obj.status == 'fechado':
-                        form.fields['descricao'].widget.attrs['readonly'] = True
-                        form.fields['arquivo'].widget.attrs['readonly'] = True
+            if obj:
+                if isinstance(inline, AnexoInline):
+                    for form in inline_admin_formset.forms:
+                        if form.instance.usuario_id not in (request.user.id, None) or obj.status == 'fechado':
+                            form.fields['descricao'].widget.attrs['readonly'] = True
+                            form.fields['arquivo'].widget.attrs['readonly'] = True
 
-            if isinstance(inline, ComentarioInline):
-                for form in inline_admin_formset.forms:
-                    if form.instance.usuario_id not in (request.user.id, None) or obj.status == 'fechado':
-                        form.fields['mensagem'].widget.attrs['readonly'] = True
+                if isinstance(inline, ComentarioInline):
+                    for form in inline_admin_formset.forms:
+                        if form.instance.usuario_id not in (request.user.id, None) or obj.status == 'fechado':
+                            form.fields['mensagem'].widget.attrs['readonly'] = True
 
             inline_admin_formsets.append(inline_admin_formset)
         return inline_admin_formsets
