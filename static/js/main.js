@@ -3,7 +3,8 @@ $(document).ready(function() {
     $('.summernote, .summernote-readonly').summernote({
         /**set widget behavior**/
         lang: 'pt-BR',
-        minHeight: 100,
+        minHeight: '100px',
+        width: '100%',
         toolbar: [
             // ['style', ['style']],
             ['font', ['bold', 'italic', 'clear']],
