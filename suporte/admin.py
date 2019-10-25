@@ -1,16 +1,9 @@
 from django.contrib import admin
-from .models import Chamado, Categoria, Anexo, Comentario
-from django.forms import ModelForm
-from .forms import ChamadoForm
-from fsm_admin.mixins import FSMTransitionMixin
-from suit.widgets import AutosizedTextarea
 from django.db.models import Q
+from .models import Chamado, Categoria, Anexo, Comentario
+from .forms import ChamadoForm, ComentarioInlineForm
+from fsm_admin.mixins import FSMTransitionMixin
 
-class ComentarioInlineForm(ModelForm):
-    class Meta:
-        widgets = {
-            'mensagem': AutosizedTextarea(attrs={'rows': 2}),
-        }
 
 class ComentarioInline(admin.StackedInline):
     model = Comentario
@@ -79,7 +72,7 @@ class ChamadoAdmin(FSMTransitionMixin, admin.ModelAdmin):
     def get_readonly_fields(self, request, obj=None):
         readonly_fields = self.readonly_fields
         if obj and obj.status != 'rascunho':
-            readonly_fields = readonly_fields + ['setor', 'categoria', 'assunto', 'informacoes', 'relacionado']
+            readonly_fields = readonly_fields + ['setor', 'categoria', 'assunto', 'relacionado']
 
         return readonly_fields
 
