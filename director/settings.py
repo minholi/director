@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'acoes',
     'captacao',
     'ingresso',
-    'relacionamento',
+    'permanencia',
     'log',
     'suporte',
     'import_export',

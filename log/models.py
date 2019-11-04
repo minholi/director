@@ -1,5 +1,5 @@
 from django.db import models
-import relacionamento.models as rel
+import permanencia.models as rel
 import ingresso.models as ing
 import captacao.models as cap
 from django.db.models import signals

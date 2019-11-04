@@ -1,5 +1,5 @@
 from controlcenter import Dashboard, widgets
-from relacionamento.models import Aluno
+from permanencia.models import Aluno
 
 class AlunoItemList(widgets.ItemList):
     model = Aluno

@@ -3,7 +3,7 @@ from __future__ import absolute_import, unicode_literals
 from celery import shared_task
 from captacao.models import Contato
 from ingresso.models import Inscrito
-from relacionamento.models import Aluno
+from permanencia.models import Aluno
 from .models import TempoContato, TempoInscrito, TempoAluno
 from django.utils import timezone
 from django.db import transaction
