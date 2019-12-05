@@ -1,5 +1,5 @@
 celery==4.3.0
-Django==2.2.4
+Django==2.2.8
 django-autocomplete-light==3.4.1
 django-controlcenter==0.2.9
 django-currentuser==0.4.2
